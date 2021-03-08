@@ -72,6 +72,7 @@ Vagrant.configure("2") do |config|
     google.network = "vpc"
     google.name = "vagrant-#{$username}"
     google.tags = ["vagrant"]
+    google.zone = "us-east1-a"
   end
 
   # Provide an EC2s VM if --provider=aws.

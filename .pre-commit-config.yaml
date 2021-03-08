@@ -14,3 +14,12 @@ repos:
       - id: destroyed-symlinks
       - id: end-of-file-fixer
       - id: trailing-whitespace
+  - repo: https://github.com/gruntwork-io/pre-commit
+    rev: v0.1.12
+    hooks:
+      - id: terraform-fmt
+      - id: terraform-validate
+  - repo: https://github.com/hadolint/hadolint
+    rev: v1.23.0
+    hooks:
+      - id: hadolint-docker

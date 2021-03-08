@@ -9,6 +9,13 @@
 # macOS.
 .DS_Store
 
+# Terraform.
+*.tfstate
+*.tfstate.backup
+*.tfstate.lock.info
+*.tfvars
+.terraform/
+
 # Vagrant.
 .vagrant/
 

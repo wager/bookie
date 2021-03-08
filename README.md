@@ -89,6 +89,8 @@ docker build . -t ghcr.io/wager/runtime
   https://aws.amazon.com/ec2
 [Docker]:
   https://www.docker.com/
+[Git]:
+  https://git-scm.com/downloads
 [Google Compute Engine]:
   https://cloud.google.com/compute
 [Vagrant]:

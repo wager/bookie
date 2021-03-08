@@ -1,6 +1,15 @@
+# Get the username on Windows or Linux.
+$username = ENV.fetch("UserName", ENV.fetch("USER"))
+
 Vagrant.configure("2") do |config|
   # Provision a Ubuntu 20.04 LTS box.
   config.vm.box = "ubuntu/focal64"
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  config.ssh.username = $username
+  config.ssh.private_key_path = "~/.ssh/id_rsa"
+  config.ssh.extra_args = ["-t", "cd /wager; bash --login"]
+
   config.vm.provision :docker
   config.vm.provision "shell", inline: <<-SHELL
     # Install system dependencies.
@@ -26,29 +35,34 @@ Vagrant.configure("2") do |config|
     npm install -g docsify-cli
   SHELL
 
-  # Create a local VM by default.
+  # Provide a VirtualBox VM by default.
   config.vm.provider :virtualbox do |virtualbox, override|
     override.vm.network "forwarded_port", guest: 3000, host: 3000, auto_correct: true  # Docsify
     override.vm.network "forwarded_port", guest: 8888, host: 8888, auto_correct: true  # Jupyter
   end
 
-  # Create a Google Cloud VM if --provider=google and GOOGLE_APPLICATION_CREDENTIALS is set.
+  # Provide a Google Compute Engine VM if --provider=google.
   config.vm.provider :google do |google, override|
     override.vm.box = "google/gce"
+
     google.enable_secure_boot = true
-    google.google_json_key_location = ENV["GOOGLE_APPLICATION_CREDENTIALS"]
-    google.google_project_id = "wager-233003"
+    google.google_project_id = ENV.fetch("GOOGLE_PROJECT_ID", "wager-233003")
     google.image_family = "ubuntu-2004-lts"
-    google.machine_type = "e2-standard-4"
-    google.name = "vagrant-#{ENV["UserName"] || ENV["USER"]}"
+    google.machine_type = ENV.fetch("GOOGLE_MACHINE_TYPE", "e2-standard-4")
+    google.network = "vpc"
+    google.name = "vagrant-#{$username}"
     google.tags = ["vagrant"]
   end
 
-  # Configure SSH.
-  config.ssh.username = ENV["UserName"] || ENV["USER"]
-  config.ssh.private_key_path = "~/.ssh/id_rsa"
-  config.ssh.extra_args = ["-t", "cd /wager; bash --login"]
+  # Provide an EC2s VM if --provider=aws.
+  config.vm.provider :aws do |aws, override|
+    override.vm.box = "dummy"
+    override.ssh.username = "ubuntu"
 
-  # Disable synced folders.
-  config.vm.synced_folder ".", "/vagrant", disabled: true
+    aws.ami = "ami-042e8287309f5df03"
+    aws.associate_public_ip = true
+    aws.instance_type = ENV.fetch("AWS_INSTANCE_TYPE", "t3.xlarge")
+    aws.keypair_name = ENV.fetch("AWS_KEYPAIR_NAME", $username)
+    aws.tags = {"Name" => "vagrant-#{$username}"}
+  end
 end

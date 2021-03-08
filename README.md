@@ -58,7 +58,7 @@ vagrant ssh-config >> ~/.ssh/config
 
 # Features
 
-The development platform is built on [Vagrant].
+The development platform is built with [Vagrant].
 
 ```bash
 # Start the development environment.
@@ -71,7 +71,7 @@ exit
 vagrant suspend
 ```
 
-The development platform is compatible with [VirtualBox], [Google Compute Engine], and [AWS EC2].
+The development platform runs on [VirtualBox], [Google Cloud], and [AWS].
 
 ```bash
 vagrant up  # VirtualBox
@@ -79,19 +79,19 @@ vagrant up --provider=google  # Google Compute Engine
 vagrant up --provider=aws  # AWS EC2.
 ```
 
-The runtime platform is built on [Docker].
+The runtime platform is built with [Docker].
 
 ```bash
 docker build . -t ghcr.io/wager/runtime
 ```
 
-[AWS EC2]:
+[AWS]:
   https://aws.amazon.com/ec2
 [Docker]:
   https://www.docker.com/
 [Git]:
   https://git-scm.com/downloads
-[Google Compute Engine]:
+[Google Cloud]:
   https://cloud.google.com/compute
 [Vagrant]:
   https://www.vagrantup.com/downloads

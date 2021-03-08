@@ -6,9 +6,10 @@ Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/focal64"
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
+  config.ssh.extra_args = ["-t", "cd /wager; bash --login"]
+  config.ssh.forward_agent = true
   config.ssh.username = $username
   config.ssh.private_key_path = "~/.ssh/id_rsa"
-  config.ssh.extra_args = ["-t", "cd /wager; bash --login"]
 
   config.vm.provision :docker
   config.vm.provision "shell", inline: <<-SHELL

@@ -12,24 +12,43 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision :docker
   config.vm.provision "shell", inline: <<-SHELL
-    # Install system dependencies.
+    # Configure provisioning script.
+    set -euo pipefail
     export DEBIAN_FRONTEND=noninteractive
-    apt-get update -y
-    apt-get install -y curl default-jdk git python-is-python3
+    apt-get update --yes
+
+    # Install system dependencies.
+    apt-get install --yes \
+      curl=7.68.0-1ubuntu2.4 \
+      default-jdk=2:1.11-72 \
+      python-is-python3=3.8.2-4
 
     curl -O https://downloads.apache.org/spark/spark-3.0.2/spark-3.0.2-bin-hadoop3.2.tgz
     tar xvf spark-3.0.2-bin-hadoop3.2.tgz
-    mv spark-3.0.2-bin-hadoop3.2 /opt/spark
-    rm spark-3.0.2-bin-hadoop3.2.tgz
-    curl -O https://storage.googleapis.com/hadoop-lib/gcs/gcs-connector-hadoop3-2.2.0.jar
-    mv gcs-connector-hadoop3-2.2.0.jar /opt/spark/jars/
+    mv spark-3.0.2-bin-hadoop3.2 /opt/spark \
+    rm spark-3.0.2-bin-hadoop3.2.tgz \
+    curl -O https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.969/aws-java-sdk-bundle-1.11.969.jar \
+    mv aws-java-sdk-bundle-1.11.969.jar /opt/spark/jars/ \
+    curl -O https://storage.googleapis.com/hadoop-lib/gcs/gcs-connector-hadoop3-2.2.0.jar \
+    mv gcs-connector-hadoop3-2.2.0.jar /opt/spark/jars/ \
+    curl -O https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.2.2/hadoop-aws-3.2.2.jar \
+    mv hadoop-aws-3.2.2.jar /opt/spark/jars/ \
+    curl -O https://github.com/GoogleCloudDataproc/spark-bigquery-connector/releases/download/0.19.1/spark-bigquery-with-dependencies_2.12-0.19.1.jar \
+    mv spark-bigquery-with-dependencies_2.12-0.19.1.jar /opt/spark/jars/
 
     # Clone source code.
     ssh-keyscan -H github.com >> ~/.ssh/known_hosts
     git clone git@github.com:wager/wager.git
 
     # Install development dependencies.
-    apt-get install -y git golang-go golang-golang-x-tools node-gyp npm python3-pip
+    apt-get install --yes \
+      git-all=1:2.25.1-1ubuntu3 \
+      golang-go=2:1.13~1ubuntu2 \
+      golang-golang-x-tools=1:0.0~git20191118.07fc4c7+ds-1 \
+      node-gyp=6.1.0-3 \
+      npm=6.14.4+ds-1ubuntu2 \
+      python3-pip=20.0.2-5ubuntu1.1
+
     npm install -g @bazel/bazelisk
     (cd wager && pip3 install pre-commit && pre-commit install)
     npm install -g docsify-cli

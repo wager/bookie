@@ -66,6 +66,7 @@ Vagrant.configure("2") do |config|
     override.vm.box = "google/gce"
 
     google.enable_secure_boot = true
+    google.google_json_key_location = ENV.fetch("GOOGLE_APPLICATION_CREDENTIALS")
     google.google_project_id = ENV.fetch("GOOGLE_PROJECT_ID", "wager-233003")
     google.image_family = "ubuntu-2004-lts"
     google.machine_type = ENV.fetch("GOOGLE_MACHINE_TYPE", "e2-standard-4")
@@ -80,10 +81,12 @@ Vagrant.configure("2") do |config|
     override.vm.box = "dummy"
     override.ssh.username = "ubuntu"
 
+    aws.access_key_id = ENV.fetch("AWS_ACCESS_KEY_ID")
     aws.ami = "ami-042e8287309f5df03"
     aws.associate_public_ip = true
     aws.instance_type = ENV.fetch("AWS_INSTANCE_TYPE", "t3.xlarge")
     aws.keypair_name = ENV.fetch("AWS_KEYPAIR_NAME", $username)
+    aws.secret_access_key = ENV.fetch("AWS_SECRET_ACCESS_KEY")
     aws.tags = {"Name" => "vagrant-#{$username}"}
   end
 end

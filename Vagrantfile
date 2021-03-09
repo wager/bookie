@@ -1,5 +1,4 @@
-# Get the username on Windows or Linux.
-$username = ENV.fetch("UserName", ENV.fetch("USER"))
+$username = ENV[Vagrant::Util::Platform.windows? ? "UserName" : "USER"]
 
 Vagrant.configure("2") do |config|
   # Provision a Ubuntu 20.04 LTS box.
@@ -9,7 +8,6 @@ Vagrant.configure("2") do |config|
   config.ssh.extra_args = ["-t", "cd /wager; bash --login"]
   config.ssh.forward_agent = true
   config.ssh.username = $username
-  config.ssh.private_key_path = "~/.ssh/id_rsa"
 
   config.vm.provision :docker
   config.vm.provision "shell", inline: <<-SHELL
@@ -26,15 +24,15 @@ Vagrant.configure("2") do |config|
 
     curl -O https://downloads.apache.org/spark/spark-3.0.2/spark-3.0.2-bin-hadoop3.2.tgz
     tar xvf spark-3.0.2-bin-hadoop3.2.tgz
-    mv spark-3.0.2-bin-hadoop3.2 /opt/spark \
-    rm spark-3.0.2-bin-hadoop3.2.tgz \
-    curl -O https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.969/aws-java-sdk-bundle-1.11.969.jar \
-    mv aws-java-sdk-bundle-1.11.969.jar /opt/spark/jars/ \
-    curl -O https://storage.googleapis.com/hadoop-lib/gcs/gcs-connector-hadoop3-2.2.0.jar \
-    mv gcs-connector-hadoop3-2.2.0.jar /opt/spark/jars/ \
-    curl -O https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.2.2/hadoop-aws-3.2.2.jar \
-    mv hadoop-aws-3.2.2.jar /opt/spark/jars/ \
-    curl -O https://github.com/GoogleCloudDataproc/spark-bigquery-connector/releases/download/0.19.1/spark-bigquery-with-dependencies_2.12-0.19.1.jar \
+    mv spark-3.0.2-bin-hadoop3.2 /opt/spark
+    rm spark-3.0.2-bin-hadoop3.2.tgz
+    curl -O https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.969/aws-java-sdk-bundle-1.11.969.jar
+    mv aws-java-sdk-bundle-1.11.969.jar /opt/spark/jars/
+    curl -O https://storage.googleapis.com/hadoop-lib/gcs/gcs-connector-hadoop3-2.2.0.jar
+    mv gcs-connector-hadoop3-2.2.0.jar /opt/spark/jars/
+    curl -O https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.2.2/hadoop-aws-3.2.2.jar
+    mv hadoop-aws-3.2.2.jar /opt/spark/jars/
+    curl -O https://github.com/GoogleCloudDataproc/spark-bigquery-connector/releases/download/0.19.1/spark-bigquery-with-dependencies_2.12-0.19.1.jar
     mv spark-bigquery-with-dependencies_2.12-0.19.1.jar /opt/spark/jars/
 
     # Clone source code.
@@ -67,13 +65,14 @@ Vagrant.configure("2") do |config|
 
     google.enable_secure_boot = true
     google.google_json_key_location = ENV["GOOGLE_APPLICATION_CREDENTIALS"]
-    google.google_project_id = ENV.fetch("GOOGLE_PROJECT_ID", "wager-233003")
+    google.google_project_id = ENV["GOOGLE_PROJECT_ID"] || "wager-233003"
     google.image_family = "ubuntu-2004-lts"
-    google.machine_type = ENV.fetch("GOOGLE_MACHINE_TYPE", "e2-standard-4")
+    google.machine_type = ENV["GOOGLE_MACHINE_TYPE"] || "e2-standard-4"
     google.network = "vpc"
+    google.subnetwork = "vpc"
     google.name = "vagrant-#{$username}"
     google.tags = ["vagrant"]
-    google.zone = "us-east1-a"
+    google.zone = "us-east1-b"
   end
 
   # Provide an EC2s VM if --provider=aws.
@@ -84,8 +83,8 @@ Vagrant.configure("2") do |config|
     aws.access_key_id = ENV["AWS_ACCESS_KEY_ID"]
     aws.ami = "ami-042e8287309f5df03"
     aws.associate_public_ip = true
-    aws.instance_type = ENV.fetch("AWS_INSTANCE_TYPE", "t3.xlarge")
-    aws.keypair_name = ENV.fetch("AWS_KEYPAIR_NAME", $username)
+    aws.instance_type = ENV["AWS_INSTANCE_TYPE"] || "t3.xlarge"
+    aws.keypair_name = ENV["AWS_KEYPAIR_NAME"] || $username
     aws.secret_access_key = ENV["AWS_SECRET_ACCESS_KEY"]
     aws.tags = {"Name" => "vagrant-#{$username}"}
   end

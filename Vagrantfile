@@ -5,8 +5,9 @@ Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/focal64"
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
-  config.ssh.extra_args = ["-t", "cd /wager; bash --login"]
+  config.ssh.extra_args = ["-t", "cd wager; bash --login"]
   config.ssh.forward_agent = true
+  config.ssh.private_key_path = "~/.ssh/id_rsa"
   config.ssh.username = $username
 
   config.vm.provision :docker
@@ -22,17 +23,17 @@ Vagrant.configure("2") do |config|
       default-jdk=2:1.11-72 \
       python-is-python3=3.8.2-4
 
-    curl -O https://downloads.apache.org/spark/spark-3.0.2/spark-3.0.2-bin-hadoop3.2.tgz
+    curl -sO https://downloads.apache.org/spark/spark-3.0.2/spark-3.0.2-bin-hadoop3.2.tgz
     tar xvf spark-3.0.2-bin-hadoop3.2.tgz
     mv spark-3.0.2-bin-hadoop3.2 /opt/spark
     rm spark-3.0.2-bin-hadoop3.2.tgz
-    curl -O https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.969/aws-java-sdk-bundle-1.11.969.jar
+    curl -sO https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.969/aws-java-sdk-bundle-1.11.969.jar
     mv aws-java-sdk-bundle-1.11.969.jar /opt/spark/jars/
-    curl -O https://storage.googleapis.com/hadoop-lib/gcs/gcs-connector-hadoop3-2.2.0.jar
+    curl -sO https://storage.googleapis.com/hadoop-lib/gcs/gcs-connector-hadoop3-2.2.0.jar
     mv gcs-connector-hadoop3-2.2.0.jar /opt/spark/jars/
-    curl -O https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.2.2/hadoop-aws-3.2.2.jar
+    curl -sO https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.2.2/hadoop-aws-3.2.2.jar
     mv hadoop-aws-3.2.2.jar /opt/spark/jars/
-    curl -O https://github.com/GoogleCloudDataproc/spark-bigquery-connector/releases/download/0.19.1/spark-bigquery-with-dependencies_2.12-0.19.1.jar
+    curl -sO https://github.com/GoogleCloudDataproc/spark-bigquery-connector/releases/download/0.19.1/spark-bigquery-with-dependencies_2.12-0.19.1.jar
     mv spark-bigquery-with-dependencies_2.12-0.19.1.jar /opt/spark/jars/
 
     # Clone source code.
@@ -62,6 +63,7 @@ Vagrant.configure("2") do |config|
   # Provide a Google Compute Engine VM if --provider=google.
   config.vm.provider :google do |google, override|
     override.vm.box = "google/gce"
+    override.ssh.username = ENV["GOOGLE_USERNAME"] || $username
 
     google.enable_secure_boot = true
     google.google_json_key_location = ENV["GOOGLE_APPLICATION_CREDENTIALS"]

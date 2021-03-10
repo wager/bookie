@@ -11,17 +11,17 @@ RUN \
     && rm -rf /var/lib/apt/lists/*
 
 RUN \
-    curl -O https://downloads.apache.org/spark/spark-3.0.2/spark-3.0.2-bin-hadoop3.2.tgz \
+    curl -sO https://downloads.apache.org/spark/spark-3.0.2/spark-3.0.2-bin-hadoop3.2.tgz \
     && tar xvf spark-3.0.2-bin-hadoop3.2.tgz \
     && mv spark-3.0.2-bin-hadoop3.2 /opt/spark \
     && rm spark-3.0.2-bin-hadoop3.2.tgz \
-    && curl -O https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.969/aws-java-sdk-bundle-1.11.969.jar \
+    && curl -sO https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.969/aws-java-sdk-bundle-1.11.969.jar \
     && mv aws-java-sdk-bundle-1.11.969.jar /opt/spark/jars/ \
-    && curl -O https://storage.googleapis.com/hadoop-lib/gcs/gcs-connector-hadoop3-2.2.0.jar \
+    && curl -sO https://storage.googleapis.com/hadoop-lib/gcs/gcs-connector-hadoop3-2.2.0.jar \
     && mv gcs-connector-hadoop3-2.2.0.jar /opt/spark/jars/ \
-    && curl -O https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.2.2/hadoop-aws-3.2.2.jar \
+    && curl -sO https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.2.2/hadoop-aws-3.2.2.jar \
     && mv hadoop-aws-3.2.2.jar /opt/spark/jars/ \
-    && curl -O https://github.com/GoogleCloudDataproc/spark-bigquery-connector/releases/download/0.19.1/spark-bigquery-with-dependencies_2.12-0.19.1.jar \
+    && curl -sO https://github.com/GoogleCloudDataproc/spark-bigquery-connector/releases/download/0.19.1/spark-bigquery-with-dependencies_2.12-0.19.1.jar \
     && mv spark-bigquery-with-dependencies_2.12-0.19.1.jar /opt/spark/jars/
 
 LABEL \

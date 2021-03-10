@@ -1,6 +1,0 @@
-- id: vagrant-validate
-  name: Validate Vagrantfile
-  description: Runs vagrant validate to validate Vagrantfiles
-  language: system
-  files: "Vagrantfile"
-  entry: vagrant validate

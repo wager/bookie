@@ -18,7 +18,7 @@ Vagrant.configure("2") do |config|
     apt-get update --yes
 
     # Install system dependencies.
-    apt-get install --yes \
+    apt-get install --yes --no-install-recommends \
       curl=7.68.0-1ubuntu2.4 \
       default-jdk=2:1.11-72 \
       python-is-python3=3.8.2-4
@@ -41,7 +41,7 @@ Vagrant.configure("2") do |config|
     git clone git@github.com:wager/wager.git
 
     # Install development dependencies.
-    apt-get install --yes \
+    apt-get install --yes --no-install-recommends \
       git-all=1:2.25.1-1ubuntu3 \
       golang-go=2:1.13~1ubuntu2 \
       golang-golang-x-tools=1:0.0~git20191118.07fc4c7+ds-1 \
@@ -70,9 +70,9 @@ Vagrant.configure("2") do |config|
     google.google_project_id = ENV["GOOGLE_PROJECT_ID"] || "wager-233003"
     google.image_family = "ubuntu-2004-lts"
     google.machine_type = ENV["GOOGLE_MACHINE_TYPE"] || "e2-standard-4"
+    google.name = "vagrant-#{$username}"
     google.network = "vpc"
     google.subnetwork = "vpc"
-    google.name = "vagrant-#{$username}"
     google.tags = ["vagrant"]
     google.zone = "us-east1-b"
   end

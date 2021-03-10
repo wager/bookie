@@ -33,7 +33,7 @@ $script = <<-SHELL
 
   # Install development dependencies.
   apt-get install --yes --no-install-recommends \
-    git-all=1:2.25.1-1ubuntu3 \
+    git=1:2.25.1-1ubuntu3.1 \
     golang-go=2:1.13~1ubuntu2 \
     golang-golang-x-tools=1:0.0~git20191118.07fc4c7+ds-1 \
     node-gyp=6.1.0-3 \

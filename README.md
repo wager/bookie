@@ -12,24 +12,24 @@ platform/                           https://github.com/wager/platform
 
 # Setup
 
-1. Install [Git], [Vagrant], [VirtualBox].
+1. Install [Git], [Vagrant], and [VirtualBox].
 
 ```bash
-# Install Visual Studio Code on Ubuntu.
+# Ubuntu.
 sudo apt install git vagrant virtualbox
+# macOS.
+brew install git cask/vagrant cask/virtualbox
 ```
 
 2. Generate an SSH key and grant it access to the [Wager] repository.
 
 ```bash
-# Run from a terminal on macOS and Linux, and from Git Bash on Windows.
 ssh-keygen
 ```
 
 3. Launch the development environment.
 
 ```bash
-# Launch the development environment.
 vagrunt up
 ```
 

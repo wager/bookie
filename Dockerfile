@@ -28,6 +28,6 @@ LABEL \
     org.opencontainers.image.authors="ashwin.madavan@gmail.com" \
     org.opencontainers.image.description="A Spark installation on Ubuntu 20.04 LTS." \
     org.opencontainers.image.licenses="MIT" \
-    org.opencontainers.image.source="https://github.com/wager/platform/Dockerfile" \
+    org.opencontainers.image.source="https://github.com/wager/bookie/Dockerfile" \
     org.opencontainers.image.title="Wager Runtime" \
     org.opencontainers.image.vendor="wager"

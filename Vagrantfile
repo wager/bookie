@@ -43,6 +43,28 @@ $script = <<-SHELL
   npm install -g @bazel/bazelisk
   (cd wager && pip3 install pre-commit && pre-commit install)
   npm install -g docsify-cli
+
+  # Install a `wager` command that runs the app in a wager_workspace.
+  cat >> ~/.bashrc << EOF
+  function wager() {
+    local -r root="$HOME/wager"
+    local -r workspace="wager/$1"
+    local -r arguments="${@:2}"
+
+    if [ ! -d "$root/$workspace" ]; then
+        echo "$root/$workspace does not exist."
+        exit 1
+    elif ! grep -q 'wager_workspace' "$root/$workspace/BUILD"; then
+        echo "$root/$workspace/BUILD does not contain a wager_workspace."
+        exit 1
+    elif ! (cd "$root" && bazel build "//$workspace:app" > /dev/null 2>&1); then
+        echo "Build failed. Run cd $root && bazel build //$workspace:app for details."
+        exit 1
+    else
+        (cd "$root" && eval "./bazel-bin/$workspace/app" "$arguments")
+    fi
+  }
+  EOF
 SHELL
 
 Vagrant.configure("2") do |config|

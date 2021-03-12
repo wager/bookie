@@ -2,7 +2,7 @@
 $me = ENV[Vagrant::Util::Platform.windows? ? "UserName" : "USER"]
 
 # Shell script that provisions virtual machines.
-$script = <<-SHELL
+$script = <<SHELL
   set -euo pipefail
   export DEBIAN_FRONTEND=noninteractive
   apt-get update --yes
@@ -55,7 +55,7 @@ $script = <<-SHELL
         echo "$root/$workspace does not exist."
         exit 1
     elif ! grep -q 'wager_workspace' "$root/$workspace/BUILD"; then
-        echo "$root/$workspace/BUILD does not contain a wager_workspace."
+        echo "$root/$workspace is not a wager_workspace."
         exit 1
     elif ! (cd "$root" && bazel build "//$workspace:app" > /dev/null 2>&1); then
         echo "Build failed. Run cd $root && bazel build //$workspace:app for details."

@@ -61,7 +61,7 @@ $script = <<-SHELL
         echo "Build failed. Run cd $root && bazel build //$workspace:app for details."
         exit 1
     else
-        (cd "$root" && eval "./bazel-bin/$workspace/app" "$arguments")
+        (cd "$root/$workspace" && eval "$root/bazel-bin/$workspace/app" "$arguments")
     fi
   }
   EOF

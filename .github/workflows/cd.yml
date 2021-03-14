@@ -11,7 +11,7 @@ jobs:
         uses: actions/checkout@v2
       - name: ghcr.io/wager/runtime
         run: |
-          echo ${{ secrets.GH_PACKAGES_PAT }} \
+          echo ${{ secrets.PERSONAL_ACCESS_TOKEN }} \
             | docker login ghcr.io --username ashwin153 --password-stdin
           docker build --tag ghcr.io/wager/runtime .
           docker push ghcr.io/wager/runtime

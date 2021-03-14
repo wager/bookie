@@ -28,4 +28,4 @@ jobs:
       - name: Pre-Commit
         uses: pre-commit/action@v2.0.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}

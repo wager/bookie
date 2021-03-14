@@ -1,4 +1,10 @@
 <p align="center">
+  <a href="https://github.com/wager/bookie/actions/workflows/ci.yml">
+    <img
+      src="https://github.com/wager/bookie/workflows/ci/badge.svg"
+      alt="Continuous Integration"
+    />
+  </a>
   <a href="https://github.com/wager/bookie/actions/workflows/cd.yml">
     <img
       src="https://github.com/wager/bookie/workflows/cd/badge.svg"

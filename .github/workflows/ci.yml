@@ -19,5 +19,7 @@ jobs:
           sudo apt install terraform
       - name: Install Vagrant
         run: sudo apt-get install vagrant
+      - name: Install VirtualBox
+        run: sudo apt-get install virtualbox
       - name: Pre-Commit
         uses: pre-commit/action@v2.0.0

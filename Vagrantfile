@@ -1,7 +1,3 @@
-# Name of the local user.
-$me = ENV[Vagrant::Util::Platform.windows? ? "UserName" : "USER"]
-
-# Shell script that provisions virtual machines.
 $script = <<SHELL
   set -euo pipefail
   export DEBIAN_FRONTEND=noninteractive
@@ -85,7 +81,8 @@ Vagrant.configure("2") do |config|
 
   # Provide a Google Compute Engine VM if --provider=google.
   config.vm.provider :google do |google, override|
-    override.ssh.username = ENV["GOOGLE_USERNAME"] || $me
+    public_key = File.read(File.expand_path("~/.ssh/id_rsa.pub"))
+    override.ssh.username = public_key.split(" ")[2].split("@")[0]
     override.ssh.private_key_path = "~/.ssh/id_rsa"
     override.vm.box = "google/gce"
     override.vm.provision "shell", inline: $script, env: {"USERNAME": override.ssh.username}
@@ -112,8 +109,8 @@ Vagrant.configure("2") do |config|
     aws.ami = "ami-042e8287309f5df03"
     aws.associate_public_ip = true
     aws.instance_type = ENV["AWS_INSTANCE_TYPE"] || "t3.xlarge"
-    aws.keypair_name = ENV["AWS_KEYPAIR_NAME"] || $me
+    aws.keypair_name = ENV["AWS_KEYPAIR_NAME"]
     aws.secret_access_key = ENV["AWS_SECRET_ACCESS_KEY"]
-    aws.tags = {"Name" => "vagrant-#{$me}"}
+    aws.tags = {"Name" => "vagrant-#{aws.keypair_name}"}
   end
 end

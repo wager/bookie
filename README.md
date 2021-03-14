@@ -1,59 +1,47 @@
+<p align="center">
+  <a href="https://github.com/wager/bookie/actions/workflows/ci.yml">
+    <img
+      src="https://github.com/wager/bookie/workflows/ci/badge.svg"
+      alt="Continuous Integration"
+    />
+  </a>
+  <a href="https://github.com/wager/bookie/actions/workflows/cd.yml">
+    <img
+      src="https://github.com/wager/bookie/workflows/cd/badge.svg"
+      alt="Continuous Delivery"
+    />
+  </a>
+  <a href="https://github.com/pre-commit/pre-commit">
+    <img
+      src="https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit"
+      alt="pre-commit"
+    />
+  </a>
+  <a href="https://hub.docker.com/r/wager/runtime">
+    <img
+      src="https://img.shields.io/docker/image-size/wager/runtime/latest?label=runtime"
+      alt="Runtime"
+    />
+  </a>
+  <a href="https://wager.help">
+    <img
+      src="https://img.shields.io/badge/docs-wager.help-informational"
+      alt="Documentation"
+    />
+  </a>
+</p>
+
 A development and runtime platform for [Wager].
 
 # Structure
 
 ```bash
 platform/                           https://github.com/wager/platform
-├── .github/                        Continuous delivery workflows.
-├── Dockerfile                      Runtime platform.
+├── .github/                        Continuous integration and delivery workflows.
+├── .pre-commit-config.yaml         Linters.
 ├── terraform                       Cloud infrastructure.
+├── Dockerfile                      Runtime platform.
 └── Vagrantfile                     Development platform.
-```
-
-# Setup
-
-1. Install [Git], [Vagrant], and [VirtualBox].
-
-```bash
-# Ubuntu.
-sudo apt install git vagrant virtualbox
-# macOS.
-brew install git cask/vagrant cask/virtualbox
-```
-
-2. Generate an SSH key and grant it access to the [Wager] repository.
-
-```bash
-ssh-keygen
-```
-
-3. Launch the development environment.
-
-```bash
-vagrunt up
-```
-
-4. Install [Visual Studio Code] for the optimal experience. (optional)
-
-```bash
-# Install Visual Studio Code on Ubuntu.
-sudo snap install --classic code
-
-# Install recommended extensions.
-code --install-extension BazelBuild.vscode-bazel
-code --install-extension bbenoist.vagrant
-code --install-extension golang.go
-code --install-extension hashicorp.terraform
-code --install-extension ms-azuretools.vscode-docker
-code --install-extension ms-python.python
-code --install-extension ms-vscode-remote.remote-ssh
-code --install-extension ms-toolsai.jupyter
-code --install-extension xyz.local-history
-code --install-extension yzhang.markdown-all-in-one
-code --install-extension zxh404.vscode-proto3
-
-# Enable access to Vagrant through the Remote - SSH extension.
-vagrant ssh-config >> ~/.ssh/config
 ```
 
 # Features
@@ -89,15 +77,11 @@ docker build . -t ghcr.io/wager/runtime
   https://aws.amazon.com/ec2
 [Docker]:
   https://www.docker.com/
-[Git]:
-  https://git-scm.com/downloads
 [Google Cloud]:
   https://cloud.google.com/compute
 [Vagrant]:
-  https://www.vagrantup.com/downloads
+  https://www.vagrantup.com
 [VirtualBox]:
-  https://www.virtualbox.org/wiki/Downloads
-[Visual Studio Code]:
-  https://code.visualstudio.com/Download
+  https://www.virtualbox.org
 [Wager]:
   https://github.com/wager/wager

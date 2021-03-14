@@ -12,6 +12,8 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+      - name: Generate SSH Key
+        run: ssh-keygen -t rsa -b 4096 -C "ashwin.madavan@gmail.com"
       - name: Install Python
         uses: actions/setup-python@v2
       - name: Install Terraform

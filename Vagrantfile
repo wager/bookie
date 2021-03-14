@@ -75,7 +75,6 @@ Vagrant.configure("2") do |config|
 
   config.ssh.extra_args = ["-t", "cd wager; bash --login"]
   config.ssh.forward_agent = true
-  config.ssh.private_key_path = "~/.ssh/id_rsa"
 
   # Provide a VirtualBox VM by default.
   config.vm.provider :virtualbox do |virtualbox, override|
@@ -87,6 +86,7 @@ Vagrant.configure("2") do |config|
   # Provide a Google Compute Engine VM if --provider=google.
   config.vm.provider :google do |google, override|
     override.ssh.username = ENV["GOOGLE_USERNAME"] || $me
+    override.ssh.private_key_path = "~/.ssh/id_rsa"
     override.vm.box = "google/gce"
     override.vm.provision "shell", inline: $script, env: {"USERNAME": override.ssh.username}
 

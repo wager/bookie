@@ -81,8 +81,10 @@ Vagrant.configure("2") do |config|
 
   # Provide a Google Compute Engine VM if --provider=google.
   config.vm.provider :google do |google, override|
-    override.ssh.username = File.read("~/.ssh/id_rsa.pub").split(" ")[2].split("@")[0]
+    public_key = File.read(File.expand_path("~/.ssh/id_rsa.pub"))
+    override.ssh.username = public_key.split(" ")[2].split("@")[0]
     override.ssh.private_key_path = "~/.ssh/id_rsa"
+    
     override.vm.box = "google/gce"
     override.vm.provision "shell", inline: $script, env: {"USERNAME": override.ssh.username}
 

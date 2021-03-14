@@ -31,7 +31,9 @@
   </a>
 </p>
 
-A development and runtime platform for [Wager].
+<p align="center">
+  A development and runtime platform for <a href="https://github.com/wager/wager">Wager</a>.
+</p>
 
 # Structure
 
@@ -83,5 +85,3 @@ docker build . -t ghcr.io/wager/runtime
   https://www.vagrantup.com
 [VirtualBox]:
   https://www.virtualbox.org
-[Wager]:
-  https://github.com/wager/wager

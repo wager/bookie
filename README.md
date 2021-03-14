@@ -1,4 +1,8 @@
 <p align="center">
+  A development and runtime platform for <a href="https://github.com/wager/wager">Wager</a>.
+</p>
+
+<p align="center">
   <a href="https://github.com/wager/bookie/actions/workflows/ci.yml">
     <img
       src="https://github.com/wager/bookie/workflows/ci/badge.svg"
@@ -29,10 +33,6 @@
       alt="Documentation"
     />
   </a>
-</p>
-
-<p align="center">
-  A development and runtime platform for <a href="https://github.com/wager/wager">Wager</a>.
 </p>
 
 # Structure

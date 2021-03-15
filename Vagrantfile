@@ -32,6 +32,7 @@ $script = <<SHELL
     git=1:2.25.1-1ubuntu3.1 \
     golang-go=2:1.13~1ubuntu2 \
     golang-golang-x-tools=1:0.0~git20191118.07fc4c7+ds-1 \
+    jq=1.6-1ubuntu0.20.04.1 \
     node-gyp=6.1.0-3 \
     npm=6.14.4+ds-1ubuntu2 \
     python3-pip=20.0.2-5ubuntu1.1

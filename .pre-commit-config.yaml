@@ -23,7 +23,7 @@ repos:
     rev: v1.23.0
     hooks:
       - id: hadolint-docker
-  - repo: https://github.com/ashwin153/pre-commit
-    rev: v1.0.0
+  - repo: https://github.com/ashwin153/pre-commit-vagrant
+    rev: v1.1.0
     hooks:
       - id: vagrant-validate

@@ -38,10 +38,10 @@
 # Structure
 
 ```bash
-platform/                           https://github.com/wager/platform
+bookie/                             https://github.com/wager/bookie
 ├── .github/                        Continuous integration and delivery workflows.
 ├── .pre-commit-config.yaml         Linters.
-├── terraform                       Cloud infrastructure.
+├── terraform/                      Cloud infrastructure.
 ├── Dockerfile                      Runtime platform.
 └── Vagrantfile                     Development platform.
 ```
@@ -61,18 +61,30 @@ exit
 vagrant suspend
 ```
 
-The development platform runs on [VirtualBox], [Google Cloud], and [AWS].
+The development platform is compatible with [VirtualBox], [Google Cloud], and [AWS].
 
 ```bash
-vagrant up  # VirtualBox
-vagrant up --provider=google  # Google Compute Engine
+vagrant up  # VirtualBox.
+vagrant up --provider=google  # Google Compute Engine.
 vagrant up --provider=aws  # AWS EC2.
 ```
 
-The runtime platform is built with [Docker].
+The runtime platform is built by [Docker].
 
 ```bash
-docker build . -t ghcr.io/wager/runtime
+docker pull wager/runtime
+```
+
+The runtime platform is provisioned by [Terraform].
+
+```bash
+# Google Cloud.
+terraform -chdir=terraform/google/setup apply
+terraform -chdir=terraform/google apply
+
+# Amazon Web Services.
+terraform -chdir=terraform/aws/setup apply
+terraform -chdir=terraform/aws apply
 ```
 
 [AWS]:
@@ -81,6 +93,8 @@ docker build . -t ghcr.io/wager/runtime
   https://www.docker.com/
 [Google Cloud]:
   https://cloud.google.com/compute
+[Terraform]:
+  https://www.terraform.io/
 [Vagrant]:
   https://www.vagrantup.com
 [VirtualBox]:

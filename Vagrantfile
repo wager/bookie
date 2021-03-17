@@ -1,111 +1,49 @@
-$script = <<SHELL
-  set -euo pipefail
-  export DEBIAN_FRONTEND=noninteractive
-  apt-get update --yes
-
-  # Install system dependencies.
-  apt-get install --yes --no-install-recommends \
-    curl=7.68.0-1ubuntu2.4 \
-    default-jdk=2:1.11-72 \
-    python-is-python3=3.8.2-4 \
-    sudo=1.8.31-1ubuntu1.2
-
-  curl -sO https://downloads.apache.org/spark/spark-3.0.2/spark-3.0.2-bin-hadoop3.2.tgz
-  tar xvf spark-3.0.2-bin-hadoop3.2.tgz
-  mv spark-3.0.2-bin-hadoop3.2 /opt/spark
-  rm spark-3.0.2-bin-hadoop3.2.tgz
-  curl -sO https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.969/aws-java-sdk-bundle-1.11.969.jar
-  mv aws-java-sdk-bundle-1.11.969.jar /opt/spark/jars/
-  curl -sO https://storage.googleapis.com/hadoop-lib/gcs/gcs-connector-hadoop3-2.2.0.jar
-  mv gcs-connector-hadoop3-2.2.0.jar /opt/spark/jars/
-  curl -sO https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.2.2/hadoop-aws-3.2.2.jar
-  mv hadoop-aws-3.2.2.jar /opt/spark/jars/
-  curl -sO https://github.com/GoogleCloudDataproc/spark-bigquery-connector/releases/download/0.19.1/spark-bigquery-with-dependencies_2.12-0.19.1.jar
-  mv spark-bigquery-with-dependencies_2.12-0.19.1.jar /opt/spark/jars/
-
-  # Clone source code.
-  ssh-keyscan -H github.com >> ~/.ssh/known_hosts
-  git clone git@github.com:wager/wager.git
-  chown -R $USERNAME:$USERNAME wager
-
-  # Install development dependencies.
-  apt-get install --yes --no-install-recommends \
-    git=1:2.25.1-1ubuntu3.1 \
-    golang-go=2:1.13~1ubuntu2 \
-    golang-golang-x-tools=1:0.0~git20191118.07fc4c7+ds-1 \
-    jq=1.6-1ubuntu0.20.04.1 \
-    node-gyp=6.1.0-3 \
-    npm=6.14.4+ds-1ubuntu2 \
-    python3-pip=20.0.2-5ubuntu1.1
-
-  npm install -g @bazel/bazelisk
-  (cd wager && pip3 install pre-commit && pre-commit install)
-  npm install -g docsify-cli
-
-  # Install a `wager` command that runs the app in a wager_workspace.
-  cat >> ~/.bashrc << EOF
-  function wager() {
-    local -r root="$HOME/wager"
-    local -r workspace="wager/$1"
-    local -r arguments="${@:2}"
-
-    if [ ! -d "$root/$workspace" ]; then
-        echo "$root/$workspace does not exist."
-        exit 1
-    elif ! grep -q 'wager_workspace' "$root/$workspace/BUILD"; then
-        echo "$root/$workspace is not a wager_workspace."
-        exit 1
-    elif ! (cd "$root" && bazel build "//$workspace:app" > /dev/null 2>&1); then
-        echo "Build failed. Run cd $root && bazel build //$workspace:app for details."
-        exit 1
-    else
-        (cd "$root/$workspace" && eval "$root/bazel-bin/$workspace/app" "$arguments")
-    fi
-  }
-  EOF
-SHELL
+# Determine the name of the remote user from the comment in the SSH public key.
+$public_key = File.read(File.expand_path("~/.ssh/id_rsa.pub"))
+$username = $public_key.split(" ")[2].split("@")[0]
 
 Vagrant.configure("2") do |config|
   # Provision a Ubuntu 20.04 LTS box.
   config.vm.box = "ubuntu/focal64"
   config.vm.provision :docker
+  config.vm.provision "shell", path: "./toolchain/apt.sh", privileged: false
+  config.vm.provision "shell", path: "./toolchain/spark.sh", privileged: false
+  config.vm.provision "shell", path: "./toolchain/wager.sh", privileged: false
+  config.vm.provision "shell", path: "./toolchain/prompt.sh", privileged: false
   config.vm.synced_folder ".", "/vagrant", disabled: true
-
-  config.ssh.extra_args = ["-t", "cd wager; bash --login"]
+  config.ssh.extra_args = ["-t", "cd ~/wager; bash --login"]
   config.ssh.forward_agent = true
+  config.ssh.private_key_path = "~/.ssh/id_rsa"
+  config.ssh.username = "#{$username}"
 
   # Provide a VirtualBox VM by default.
   config.vm.provider :virtualbox do |virtualbox, override|
     override.vm.network "forwarded_port", guest: 3000, host: 3000, auto_correct: true  # Docsify
     override.vm.network "forwarded_port", guest: 8888, host: 8888, auto_correct: true  # Jupyter
-    override.vm.provision "shell", inline: $script, env: {"USERNAME": "vagrant"}
+    override.ssh.private_key_path = nil
+    override.ssh.username = "vagrant"
   end
 
   # Provide a Google Compute Engine VM if --provider=google.
   config.vm.provider :google do |google, override|
-    public_key = File.read(File.expand_path("~/.ssh/id_rsa.pub"))
-    override.ssh.username = public_key.split(" ")[2].split("@")[0]
-    override.ssh.private_key_path = "~/.ssh/id_rsa"
     override.vm.box = "google/gce"
-    override.vm.provision "shell", inline: $script, env: {"USERNAME": override.ssh.username}
 
     google.enable_secure_boot = true
     google.google_json_key_location = ENV["GOOGLE_APPLICATION_CREDENTIALS"]
     google.google_project_id = ENV["GOOGLE_PROJECT_ID"] || "wager-233003"
     google.image_family = "ubuntu-2004-lts"
     google.machine_type = ENV["GOOGLE_MACHINE_TYPE"] || "e2-standard-4"
-    google.name = "vagrant-#{override.ssh.username}"
+    google.name = "vagrant-#{$username.gsub!(/[^0-9A-Za-z]/, '-')}"
     google.network = "vpc"
     google.subnetwork = "vpc"
     google.tags = ["vagrant"]
-    google.zone = "us-east1-b"
+    google.zone = ENV["GOOGLE_ZONE"] || "us-east1-b"
   end
 
   # Provide an EC2s VM if --provider=aws.
   config.vm.provider :aws do |aws, override|
-    override.ssh.username = "ubuntu"
     override.vm.box = "dummy"
-    override.vm.provision "shell", inline: $script, env: {"USERNAME": override.ssh.username}
+    override.ssh.username = "ubuntu"
 
     aws.access_key_id = ENV["AWS_ACCESS_KEY_ID"]
     aws.ami = "ami-042e8287309f5df03"

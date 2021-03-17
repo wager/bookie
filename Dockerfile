@@ -1,10 +1,8 @@
 FROM ubuntu:20.04
 
-ARG DEBIAN_FRONTEND=noninteractive
-
 RUN \
     apt-get update --yes \
-    && apt-get install --yes --no-install-recommends \
+    && DEBIAN_FRONTEND=noninteractive apt-get install --yes --no-install-recommends \
         curl=7.68.0-1ubuntu2.4 \
         default-jdk=2:1.11-72 \
         python-is-python3=3.8.2-4 \

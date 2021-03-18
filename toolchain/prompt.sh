@@ -2,9 +2,10 @@
 set -euo pipefail
 
 cat >> ~/.bashrc << \EOF
-prompt_ip() {
+prompt_user() {
+    me=$(whoami)
     ip=$(curl -s https://ipinfo.io/ip)
-    echo -en "\e[0;37mbookie@$ip\e[0m"
+    echo -en "\e[0;37m$me@$ip\e[0m"
 }
 
 prompt_path() {
@@ -23,5 +24,5 @@ prompt_branch() {
     fi
 }
 
-PS1="\$(prompt_ip) \$(prompt_path)\$(prompt_branch)$ "
+PS1="\$(prompt_user) \$(prompt_path)\$(prompt_branch)$ "
 EOF

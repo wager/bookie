@@ -41,7 +41,7 @@ wager() {
 
 _complete_wager() {
     if [ $COMP_CWORD -eq 1 ]; then
-        COMPREPLY=(`cd ~/wager/wager && find * -name 'BUILD' -exec grep -qi 'wager_workspace' {} ';' -printf '%h ' | sort -u`)
+        COMPREPLY=(`cd ~/wager/wager && find * -name 'BUILD' -exec grep -q 'wager_workspace' {} ';' -printf '%h ' | sort -u`)
     elif [ $COMP_CWORD -eq 2 ]; then
         COMPREPLY=($(compgen -W 'backfill compute describe notebook shell' -- ${COMP_WORDS[COMP_CWORD]}))
     else

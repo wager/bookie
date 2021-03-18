@@ -19,7 +19,7 @@ git clone git@github.com:wager/wager.git ~/wager
 (cd ~/wager && bazel build //wager/analyze)
 
 cat >> ~/.bashrc << \EOF
-function wager() {
+wager() {
     local -r root="$HOME/wager"
     local -r workspace="wager/$1"
     local -r arguments="${@:2}"
@@ -38,4 +38,16 @@ function wager() {
         return $?
     fi
 }
+
+_complete_wager() {
+    if [ $COMP_CWORD -eq 1 ]; then
+        COMPREPLY=(`cd ~/wager/wager && find * -name 'BUILD' -exec grep -qi 'wager_workspace' {} ';' -printf '%h ' | sort -u`)
+    elif [ $COMP_CWORD -eq 2 ]; then
+        COMPREPLY=($(compgen -W 'backfill compute describe notebook shell' -- ${COMP_WORDS[COMP_CWORD]}))
+    else
+        COMPREPLY=()
+    fi
+}
+
+complete -F _complete_wager wager
 EOF

@@ -20,29 +20,29 @@ git clone git@github.com:wager/wager.git ~/wager
 
 cat >> ~/.bashrc << \EOF
 wager() {
-    local -r root="$HOME/wager"
+    local -r root="${HOME}/wager"
     local -r workspace="wager/$1"
     local -r arguments="${@:2}"
 
-    if [ ! -d "$root/$workspace" ]; then
-        echo "$root/$workspace does not exist."
+    if [[ ! -d "${root}/${workspace}" ]]; then
+        echo -e "\e[0;31m${root}/${workspace} does not exist.\e[0m"
         return 1
-    elif ! grep -q 'wager_workspace' "$root/$workspace/BUILD"; then
-        echo "$root/$workspace is not a wager_workspace."
+    elif ! grep -q 'wager_workspace' "${root}/${workspace}/BUILD"; then
+        echo -e "\e[0;31m${root}/${workspace} is not a Wager workspace.\e[0m"
         return 1
-    elif ! (cd "$root" && bazel build "//$workspace:app" > /dev/null 2>&1); then
-        echo "Build failed. Run cd $root && bazel build //$workspace:app for details."
+    elif ! (cd "${root}" && bazel build "//${workspace}:app" > /dev/null 2>&1); then
+        echo -e "\e[0;31mBuild failed. Run cd ${root} && bazel build //${workspace}:app for details.\e[0m"
         return 1
     else
-        (cd "$root/$workspace" && eval "$root/bazel-bin/$workspace/app" "$arguments")
+        (cd "${root}/${workspace}" && eval "${root}/bazel-bin/${workspace}/app" "${arguments}")
         return $?
     fi
 }
 
 _complete_wager() {
-    if [ $COMP_CWORD -eq 1 ]; then
-        COMPREPLY=(`cd ~/wager/wager && find * -name 'BUILD' -exec grep -q 'wager_workspace' {} ';' -printf '%h ' | sort -u`)
-    elif [ $COMP_CWORD -eq 2 ]; then
+    if [[ ${COMP_CWORD} -eq 1 ]]; then
+        COMPREPLY=($(cd ~/wager/wager && find * -name 'BUILD' -exec grep -q 'wager_workspace' {} ';' -printf '%h ' | sort -u))
+    elif [[ ${COMP_CWORD} -eq 2 ]]; then
         COMPREPLY=($(compgen -W 'backfill compute describe notebook shell' -- ${COMP_WORDS[COMP_CWORD]}))
     else
         COMPREPLY=()

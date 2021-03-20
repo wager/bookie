@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euxo pipefail
+set -euo pipefail
 
 # Run commands with sudo when not running as root.
 sudo() {
@@ -14,7 +14,7 @@ sudo mv spark-3.0.2-bin-hadoop3.2 /opt/spark
 rm spark-3.0.2-bin-hadoop3.2.tgz
 
 echo "export SPARK_HOME=/opt/spark" >> ~/.profile
-echo "export PATH=\$PATH:/opt/spark/bin,mk:/opt/spark/sbin" >> ~/.profile
+echo "export PATH=\${PATH}:/opt/spark/bin,mk:/opt/spark/sbin" >> ~/.profile
 
 # Install Spark for Amazon Web Services.
 curl -sO https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.969/aws-java-sdk-bundle-1.11.969.jar

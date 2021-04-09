@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Generate SSH Key
+      - name: Configure SSH
         run: ssh-keygen -t rsa -b 4096 -q -f "$HOME/.ssh/id_rsa" -C "ashwin.madavan@gmail.com" -N ""
       - name: Install Python
         uses: actions/setup-python@v2
@@ -25,3 +25,11 @@ jobs:
         run: sudo apt-get install virtualbox
       - name: Pre-Commit
         uses: pre-commit/action@v2.0.0
+  test:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Test
+        run: |
+          docker build .

@@ -7,15 +7,15 @@ jobs:
   deploy:
     runs-on: ubuntu-20.04
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v2
-      - name: ghcr.io/wager/runtime
+      - name: Deploy to ghcr.io/wager/runtime
         run: |
           echo ${{ secrets.PERSONAL_ACCESS_TOKEN }} \
             | docker login ghcr.io --username ashwin153 --password-stdin
           docker build --tag ghcr.io/wager/runtime .
           docker push ghcr.io/wager/runtime
-      - name: index.docker.io/wager/runtime
+      - name: Deploy to index.docker.io/wager/runtime
         run: |
           echo ${{ secrets.DOCKER_PASSWORD }} \
             | docker login --username ashwin153 --password-stdin

@@ -53,3 +53,7 @@ tar xf sqljdbc_9.2.1.0_enu.tar.gz
 rm sqljdbc_9.2.1.0_enu.tar.gz
 sudo mv sqljdbc_9.2/enu/mssql-jdbc-9.2.1.jre11.jar /opt/spark/jars/
 rm -rf sqljdbc_9.2
+
+# Install Spark for Deequ.
+curl -sO https://repo1.maven.org/maven2/com/amazon/deequ/deequ/1.2.2-spark-3.0/deequ-1.2.2-spark-3.0.jar
+sudo mv deequ-1.2.2-spark-3.0.jar /opt/spark/jars/

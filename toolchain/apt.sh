@@ -18,4 +18,4 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install --yes --allow-downgrades --n
     node-gyp=6.1.0-3 \
     npm=6.14.4+ds-1ubuntu2 \
     python-is-python3=3.8.2-4 \
-    python3-pip=20.0.2-5ubuntu1.3
+    python3-pip=20.0.2-5ubuntu1.5

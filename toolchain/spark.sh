@@ -20,11 +20,9 @@ echo "export PATH=\${PATH}:/opt/spark/bin,mk:/opt/spark/sbin" >> ~/.profile
 curl -sO https://github.com/GoogleCloudDataproc/spark-bigquery-connector/releases/download/0.19.1/spark-bigquery-with-dependencies_2.12-0.19.1.jar
 sudo mv spark-bigquery-with-dependencies_2.12-0.19.1.jar /opt/spark/jars/
 
-# Install Spark for S3.
-curl -sO https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.969/aws-java-sdk-bundle-1.11.969.jar
-sudo mv aws-java-sdk-bundle-1.11.969.jar /opt/spark/jars/
-curl -sO https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.2.2/hadoop-aws-3.2.2.jar
-sudo mv hadoop-aws-3.2.2.jar /opt/spark/jars/
+# Install Spark for Deequ.
+curl -sO https://repo1.maven.org/maven2/com/amazon/deequ/deequ/1.2.2-spark-3.0/deequ-1.2.2-spark-3.0.jar
+sudo mv deequ-1.2.2-spark-3.0.jar /opt/spark/jars/
 
 # Install Spark for Google Cloud Storage.
 curl -sO https://storage.googleapis.com/hadoop-lib/gcs/gcs-connector-hadoop3-2.2.0.jar
@@ -41,6 +39,12 @@ rm -rf mysql-connector-java-8.0.23
 curl -sO https://jdbc.postgresql.org/download/postgresql-42.2.19.jar
 sudo mv postgresql-42.2.19.jar /opt/spark/jars/
 
+# Install Spark for S3.
+curl -sO https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.969/aws-java-sdk-bundle-1.11.969.jar
+sudo mv aws-java-sdk-bundle-1.11.969.jar /opt/spark/jars/
+curl -sO https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.2.2/hadoop-aws-3.2.2.jar
+sudo mv hadoop-aws-3.2.2.jar /opt/spark/jars/
+
 # Install Spark for Snowflake.
 curl -sO https://search.maven.org/classic/remotecontent?filepath=net/snowflake/spark-snowflake_2.12/2.8.4-spark_3.0/spark-snowflake_2.12-2.8.4-spark_3.0.jar
 sudo mv spark-snowflake_2.12-2.8.4-spark_3.0.jar /opt/spark/jars/
@@ -53,7 +57,3 @@ tar xf sqljdbc_9.2.1.0_enu.tar.gz
 rm sqljdbc_9.2.1.0_enu.tar.gz
 sudo mv sqljdbc_9.2/enu/mssql-jdbc-9.2.1.jre11.jar /opt/spark/jars/
 rm -rf sqljdbc_9.2
-
-# Install Spark for Deequ.
-curl -sO https://repo1.maven.org/maven2/com/amazon/deequ/deequ/1.2.2-spark-3.0/deequ-1.2.2-spark-3.0.jar
-sudo mv deequ-1.2.2-spark-3.0.jar /opt/spark/jars/

@@ -10,9 +10,6 @@ sudo() {
 # Install Bazel.
 sudo npm install -g @bazel/bazelisk
 
-# Install Docsify.
-sudo npm install -g docsify-cli
-
 # Install Wager.
 ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 git clone git@github.com:wager/wager.git ~/wager

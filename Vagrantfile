@@ -18,7 +18,6 @@ Vagrant.configure("2") do |config|
 
   # Provide a VirtualBox VM by default.
   config.vm.provider :virtualbox do |virtualbox, override|
-    override.vm.network "forwarded_port", guest: 3000, host: 3000, auto_correct: true  # Docsify
     override.vm.network "forwarded_port", guest: 8888, host: 8888, auto_correct: true  # Jupyter
     override.ssh.private_key_path = nil
     override.ssh.username = "vagrant"

@@ -37,19 +37,6 @@ resource "google_compute_firewall" "allow_ssh" {
   }
 }
 
-# A firewall rule that exposes tcp:3000 on Vagrant boxes for Docsify.
-resource "google_compute_firewall" "allow_docsify" {
-  name          = "allow-docsify"
-  network       = google_compute_network.vpc.name
-  source_ranges = ["0.0.0.0/0"]
-  target_tags   = ["vagrant"]
-
-  allow {
-    protocol = "tcp"
-    ports    = ["3000"]
-  }
-}
-
 # A firewall rule that exposes tcp:8888 on Vagrant boxes for Jupyter.
 resource "google_compute_firewall" "allow_jupyter" {
   name          = "allow-jupyter"

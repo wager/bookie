@@ -66,14 +66,6 @@ resource "aws_security_group" "vagrant" {
   }
 
   ingress {
-    description = "Allow incoming Docsify."
-    from_port   = 3000
-    to_port     = 3000
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
     description = "Allow incoming Jupyter."
     from_port   = 8888
     to_port     = 8888

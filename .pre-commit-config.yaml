@@ -20,7 +20,7 @@ repos:
       - id: terraform-fmt
       - id: terraform-validate
   - repo: https://github.com/hadolint/hadolint
-    rev: v1.23.0
+    rev: v2.4.1
     hooks:
       - id: hadolint-docker
   - repo: https://github.com/ashwin153/pre-commit-vagrant

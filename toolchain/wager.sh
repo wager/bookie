@@ -30,13 +30,13 @@ wager() {
     elif ! grep -q 'wager_workspace' "${root}/${workspace}/BUILD"; then
         echo -e "\e[0;31m${root}/${workspace} is not a Wager workspace.\e[0m"
         return 1
-    elif ! (cd "${root}" && bazel build "//${workspace}:app" > /dev/null 2>&1); then
+    elif [[ ! -f "${root}/bazel-bin/${workspace}/app" ]] && ! (cd "${root}" && bazel build "//${workspace}:app"); then
         echo -e "\e[0;31mBuild failed. Run cd ${root} && bazel build //${workspace}:app for details.\e[0m"
         return 1
-    else
-        (cd "${root}/${workspace}" && eval "${root}/bazel-bin/${workspace}/app" "${arguments}")
-        return $?
     fi
+
+    (cd "${root}/${workspace}" && eval "${root}/bazel-bin/${workspace}/app" "${arguments}")
+    return $?
 }
 
 _complete_wager() {

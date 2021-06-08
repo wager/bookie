@@ -8,7 +8,7 @@ sudo() {
 }
 
 # Install Bazel.
-sudo npm list -g @bazel/bazelisk || sudo npm install -g @bazel/bazelisk
+sudo npm list -g @bazel/bazelisk > /dev/null 2>&1 || sudo npm install -g @bazel/bazelisk
 
 # # Install Wager.
 if [ ! -d ~/wager ]; then

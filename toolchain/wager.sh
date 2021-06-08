@@ -8,14 +8,18 @@ sudo() {
 }
 
 # Install Bazel.
-sudo npm install -g @bazel/bazelisk
+sudo npm list -g @bazel/bazelisk > /dev/null 2>&1 || sudo npm install -g @bazel/bazelisk
 
-# Install Wager.
-ssh-keyscan -H github.com >> ~/.ssh/known_hosts
-git clone git@github.com:wager/wager.git ~/wager
-(cd ~/wager && bazel build //wager/analyze)
+# # Install Wager.
+if [ ! -d ~/wager ]; then
+    ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+    git clone git@github.com:wager/wager.git ~/wager
+    (cd ~/wager && bazel build //wager/analyze)
+fi
 
-cat >> ~/.bashrc << \EOF
+# shellcheck source=/dev/null
+if [ ! -f ~/.bashrc ] || ! (source ~/.bashrc && type -t wager > /dev/null 2>&1); then
+    cat >> ~/.bashrc << \EOF
 wager() {
     local -r root="${HOME}/wager"
     local -r workspace="wager/$1"
@@ -48,3 +52,4 @@ _complete_wager() {
 
 complete -F _complete_wager wager
 EOF
+fi

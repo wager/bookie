@@ -17,6 +17,7 @@ if [ ! -d ~/wager ]; then
     (cd ~/wager && bazel build //wager/analyze)
 fi
 
+# shellcheck source=/dev/null
 if [ ! -f ~/.bashrc ] || ! (source ~/.bashrc && type -t wager > /dev/null 2>&1); then
     cat >> ~/.bashrc << \EOF
 wager() {

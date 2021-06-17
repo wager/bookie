@@ -30,5 +30,10 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-      - name: Test Dockerfile
-        run: docker build .
+      - name: Build Dockerfile
+        run: docker build --tag wager/runtime .
+      - name: Detect Vulnerabilities
+        uses: aquasecurity/trivy-action@v0.0.10
+        with:
+          image-ref: wager/runtime
+          ignore-unfixed: true

@@ -31,10 +31,4 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
       - name: Build Dockerfile
-        run: docker build --tag wager/runtime .
-      - name: Detect Vulnerabilities
-        uses: aquasecurity/trivy-action@v0.0.10
-        with:
-          image-ref: wager/runtime
-          # TODO: Remove once existing vulnerabilities are dealt with.
-          ignore-unfixed: true
+        run: docker build .

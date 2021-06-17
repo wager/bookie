@@ -36,4 +36,5 @@ jobs:
         uses: aquasecurity/trivy-action@v0.0.10
         with:
           image-ref: wager/runtime
+          # TODO: Remove once existing vulnerabilities are dealt with.
           ignore-unfixed: true

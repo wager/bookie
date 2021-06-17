@@ -23,3 +23,9 @@ jobs:
             | docker login --username ashwin153 --password-stdin
           docker build --tag wager/runtime .
           docker push wager/runtime
+      - name: Detect Vulnerabilities
+        uses: aquasecurity/trivy-action@v0.0.10
+        with:
+          image-ref: wager/runtime
+          ignore-unfixed: true
+          # TODO: Add `exit-code: 1` once existing vulnerabilities are fixed.

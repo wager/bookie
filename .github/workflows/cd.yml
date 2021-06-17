@@ -24,7 +24,7 @@ jobs:
           docker build --tag wager/runtime .
           docker push wager/runtime
       - name: Detect Vulnerabilities
-        uses: aquasecurity/trivy-action@v0.0.10
+        uses: aquasecurity/trivy-action@0.0.18
         with:
           image-ref: wager/runtime
           ignore-unfixed: true

@@ -9,7 +9,7 @@ sudo() {
 
 # Install system dependencies.
 sudo apt-get update --yes
-sudo DEBIAN_FRONTEND=noninteractive apt-get install --yes --allow-downgrades \
+sudo DEBIAN_FRONTEND=noninteractive apt-get install --yes --allow-downgrades --no-install-recommends \
     curl=7.68.0-1ubuntu2.5 \
     default-jdk=2:1.11-72 \
     git=1:2.25.1-1ubuntu3.1 \

@@ -16,7 +16,6 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install --yes --allow-downgrades --n
     git-man=1:2.25.1-1ubuntu3.1 \
     jq=1.6-1ubuntu0.20.04.1 \
     liblz4-1=1.9.2-2ubuntu0.20.04.1 \
-    make=4.2.1-1.2 \
     node-gyp=6.1.0-3 \
     npm=6.14.4+ds-1ubuntu2 \
     python-is-python3=3.8.2-4 \

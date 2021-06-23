@@ -8,7 +8,7 @@ sudo() {
 }
 
 # Install Spark.
-curl -fsSO https://downloads.apache.org/spark/spark-3.0.3/spark-3.0.3-bin-hadoop3.2.tgz
+curl -fSsO https://downloads.apache.org/spark/spark-3.0.3/spark-3.0.3-bin-hadoop3.2.tgz
 tar xf spark-3.0.3-bin-hadoop3.2.tgz
 sudo rm -rf /opt/spark || true
 sudo mv spark-3.0.3-bin-hadoop3.2 /opt/spark
@@ -26,7 +26,7 @@ spark_deps() {
 
     for coordinate in "$@"; do
         IFS=: read -r group artifact version <<< "${coordinate}"
-        curl -fsSO "${repository}/${group//.//}/${artifact}/${version}/${artifact}-${version}.jar"
+        curl -fSsO "${repository}/${group//.//}/${artifact}/${version}/${artifact}-${version}.jar"
         sudo mv "${artifact}-${version}.jar" /opt/spark/jars
     done
 }

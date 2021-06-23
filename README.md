@@ -42,6 +42,7 @@ bookie/                             https://github.com/wager/bookie
 ├── .github/                        Continuous integration and delivery workflows.
 ├── .pre-commit-config.yaml         Linters.
 ├── terraform/                      Cloud infrastructure.
+├── toolchain/                      Installation scripts.
 ├── Dockerfile                      Runtime platform.
 └── Vagrantfile                     Development platform.
 ```

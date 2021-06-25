@@ -26,8 +26,15 @@ spark_deps() {
 
     for coordinate in "$@"; do
         IFS=: read -r group artifact version <<< "${coordinate}"
-        curl -fsOS "${repository}/${group//.//}/${artifact}/${version}/${artifact}-${version}.jar"
-        sudo mv "${artifact}-${version}.jar" /opt/spark/jars
+
+        if [ "${group}:${artifact}" = "com.google.cloud.bigdataoss:gcs-connector" ]; then
+            file="${artifact}-${version}-shaded.jar"
+        else
+            file="${artifact}-${version}.jar"
+        fi
+
+        curl -fsOS "${repository}/${group//.//}/${artifact}/${version}/${file}"
+        sudo mv "${file}" /opt/spark/jars
     done
 }
 

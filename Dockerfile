@@ -7,6 +7,8 @@ RUN \
     && rm -rf /var/lib/apt/lists/* \
     && /toolchain/spark.sh
 
+CMD ["/bin/bash"]
+
 LABEL \
     org.opencontainers.image.authors="ashwin.madavan@gmail.com" \
     org.opencontainers.image.description="A Spark installation on Ubuntu 20.04 LTS." \

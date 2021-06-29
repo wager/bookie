@@ -26,8 +26,7 @@ jobs:
       - name: Deploy to gcr.io/wager-233003/runtime
         run: |
           echo "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}" \
-            | python -m base64 -e \
-            | docker login gcr.io --username _json_key --password-stdin
+            | docker login https://gcr.io --username _json_key --password-stdin
           docker build --tag gcr.io/wager-233003/runtime .
           docker push gcr.io/wager-233003/runtime
       - name: Detect Vulnerabilities

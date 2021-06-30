@@ -16,7 +16,8 @@ provider "google" {
 
 # A GCS bucket that stores the Terraform state.
 resource "google_storage_bucket" "terraform_state" {
-  name = "wager-terraform"
+  name          = "wager-terraform"
+  storage_class = "NEARLINE"
 
   versioning {
     enabled = true

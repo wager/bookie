@@ -1,4 +1,7 @@
-# A platform built on Google Cloud.
+####################################################################################################
+#                                           Google Cloud                                           #
+####################################################################################################
+
 terraform {
   backend "gcs" {
     bucket = "wager-terraform"
@@ -21,6 +24,10 @@ provider "google" {
 
 data "google_client_config" "current" {}
 
+####################################################################################################
+#                                             Network                                              #
+####################################################################################################
+
 # A virtual private cloud.
 resource "google_compute_network" "vpc" {
   name = "vpc"
@@ -36,19 +43,6 @@ resource "google_compute_firewall" "allow_ssh" {
   allow {
     protocol = "tcp"
     ports    = ["22"]
-  }
-}
-
-# A firewall rule that exposes tcp:3000 on Vagrant boxes for Docsify.
-resource "google_compute_firewall" "allow_docsify" {
-  name          = "allow-docsify"
-  network       = google_compute_network.vpc.name
-  source_ranges = ["0.0.0.0/0"]
-  target_tags   = ["vagrant"]
-
-  allow {
-    protocol = "tcp"
-    ports    = ["3000"]
   }
 }
 
@@ -82,9 +76,40 @@ resource "google_compute_firewall" "allow_internal" {
   }
 }
 
+####################################################################################################
+#                                             Storage                                              #
+####################################################################################################
+
+# A GCS bucket that stores archived data.
+resource "google_storage_bucket" "archive" {
+  name           = "wager-archive"
+  location       = var.google_region
+  requester_pays = true
+}
+
+# A GCS bucket that stores the Bazel build cache.
+resource "google_storage_bucket" "build" {
+  name                        = "wager-build"
+  location                    = var.google_region
+  uniform_bucket_level_access = true
+
+  lifecycle_rule {
+    action {
+      type = "Delete"
+    }
+    condition {
+      age = 7
+    }
+  }
+}
+
+####################################################################################################
+#                                             Compute                                              #
+####################################################################################################
+
 // A Kubernetes cluster.
-resource "google_container_cluster" "kubernetes" {
-  name                     = "kubernetes"
+resource "google_container_cluster" "live" {
+  name                     = "live"
   initial_node_count       = 1
   location                 = var.google_region
   network                  = google_compute_network.vpc.name
@@ -96,120 +121,13 @@ resource "google_container_cluster" "kubernetes" {
   }
 }
 
-# A node pool for Spark.
-resource "google_container_node_pool" "spark" {
-  name       = "spark"
-  cluster    = google_container_cluster.kubernetes.name
-  location   = google_container_cluster.kubernetes.location
-  project    = google_container_cluster.kubernetes.project
-  node_count = 3
-
-  node_config {
-    tags = ["spark"]
-  }
-}
-
-# A kubernetes provider.
+# A Kubernetes provider.
 provider "kubernetes" {
   load_config_file = false
-  host             = "https://${data.google_container_cluster.kubernetes.endpoint}"
+  host             = "https://${data.google_container_cluster.live.endpoint}"
   token            = data.google_client_config.current.access_token
 
   cluster_ca_certificate = base64decode(
-    google_container_cluster.kubernetes.master_auth[0].cluster_ca_certificate,
+    google_container_cluster.live.master_auth[0].cluster_ca_certificate,
   )
-}
-
-# A Spark master.
-resource "kubernetes_deployment" "spark_master" {
-  metadata {
-    name      = "master"
-    namespace = "spark"
-  }
-
-  spec {
-    replicas = 1
-
-    template {
-      metadata {
-        labels = {
-          app = "spark-master"
-        }
-      }
-
-      spec {
-        container {
-          name    = ""
-          command = ["/opt/spark/sbin/start-master.sh"]
-          image   = "wager/runtime"
-
-          resources {
-            limits = {
-              cpu    = "4"
-              memory = "4G"
-            }
-          }
-        }
-
-        node_selector = {
-          "cloud.google.com/gke-nodepool" = google_container_node_pool.spark.name
-        }
-      }
-    }
-  }
-}
-
-resource "kubernetes_service" "spark_master" {
-  spec {
-    selector = {
-      app = kubernetes_deployment.spark_master.spec.0.template.0.metadata.0.labels.app
-    }
-  }
-}
-
-# A Spark worker.
-resource "kubernetes_deployment" "spark_worker" {
-  metadata {
-    name      = "worker"
-    namespace = "spark"
-  }
-
-  spec {
-    replicas = 3
-
-    template {
-      metadata {
-        labels = {
-          app = "spark-worker"
-        }
-      }
-
-      spec {
-        container {
-          name    = ""
-          command = ["/opt/spark/sbin/start-slave.sh", ""]
-          image   = "wager/runtime"
-
-          resources {
-            limits = {
-              cpu    = "4"
-              memory = "4G"
-            }
-          }
-        }
-
-        node_selector = {
-          "cloud.google.com/gke-nodepool" = google_container_node_pool.spark.name
-        }
-      }
-    }
-  }
-}
-
-resource "kubernetes_service" "spark_worker" {
-  spec {
-    selector = {
-      app = kubernetes_deployment.spark_worker.spec.0.template.0.metadata.0.labels.app
-    }
-  }
 }

@@ -7,7 +7,9 @@ RUN \
     && rm -rf /var/lib/apt/lists/* \
     && /toolchain/spark.sh
 
-CMD ["/bin/bash"]
+COPY toolchain/entrypoint.sh /bin/entrypoint
+RUN chmod +x /bin/entrypoint
+CMD ["/bin/bash", "-c", "/bin/entrypoint"]
 
 LABEL \
     org.opencontainers.image.authors="ashwin.madavan@gmail.com" \

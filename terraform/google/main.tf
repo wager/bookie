@@ -329,7 +329,6 @@ resource "helm_release" "github_actions" {
   cleanup_on_fail  = true
   create_namespace = true
   depends_on       = [helm_release.cert_manager]
-  wait             = true
 
   values = [<<-YAML
     authSecret:
@@ -363,7 +362,6 @@ resource "helm_release" "apache_spark" {
   cleanup_on_fail  = true
   create_namespace = true
   timeout          = 600
-  wait             = true
 
   values = [<<-YAML
     image:

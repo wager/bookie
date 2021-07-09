@@ -1,10 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
-if [ "${SPARK_MODE:-}" == "master" ]; then
+if [ "${SPARK_MODE:-}" = "master" ]; then
     # Launch a Spark master.
     exec env SPARK_NO_DAEMONIZE=true /opt/spark/sbin/start-master.sh
-elif [ "${SPARK_MODE:-}" == "worker" ]; then
+elif [ "${SPARK_MODE:-}" = "worker" ]; then
     # Launch a Spark worker.
     exec env SPARK_NO_DAEMONIZE=true /opt/spark/sbin/start-slave.sh "${SPARK_MASTER_URL}"
 else

@@ -8,7 +8,7 @@ RUN \
     && /toolchain/spark.sh
 
 ENTRYPOINT ["/usr/bin/tini", "--"]
-CMD ["/bin/bash"]
+CMD ["/bin/bash", "-c", "/toolchain/entrypoint.sh"]
 
 LABEL \
     org.opencontainers.image.authors="ashwin.madavan@gmail.com" \

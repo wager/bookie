@@ -7,6 +7,7 @@ RUN \
     && rm -rf /var/lib/apt/lists/* \
     && /toolchain/spark.sh
 
+ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["/bin/bash"]
 
 LABEL \

@@ -5,10 +5,13 @@ COPY toolchain /toolchain
 RUN \
     /toolchain/apt.sh \
     && rm -rf /var/lib/apt/lists/* \
-    && /toolchain/spark.sh
+    && /toolchain/spark.sh \
+    && useradd --user-group --shell /bin/false --uid 1001 wager \
+    && chown wager:wager /opt/spark
 
+USER wager
 ENTRYPOINT ["/usr/bin/tini", "--"]
-CMD ["/bin/bash", "-c", "/toolchain/entrypoint.sh"]
+CMD ["/toolchain/entrypoint.sh"]
 
 LABEL \
     org.opencontainers.image.authors="ashwin.madavan@gmail.com" \

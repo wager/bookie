@@ -38,9 +38,10 @@
 # Structure
 
 ```bash
-bookie/                             https://github.com/wager/bookie
+bookie/
 ├── .github/                        Continuous integration and delivery workflows.
 ├── .pre-commit-config.yaml         Linters.
+├── renovate.json                   Dependency management.
 ├── terraform/                      Cloud infrastructure.
 ├── toolchain/                      Installation scripts.
 ├── Dockerfile                      Runtime platform.

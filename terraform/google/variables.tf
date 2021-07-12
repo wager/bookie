@@ -1,3 +1,20 @@
+variable "docker_password" {
+  type        = string
+  description = "Docker password."
+  sensitive   = true
+}
+
+variable "docker_username" {
+  type        = string
+  description = "Docker username."
+}
+
+variable "github_token" {
+  type        = string
+  description = "GitHub personal access token."
+  sensitive   = true
+}
+
 variable "google_project_id" {
   type        = string
   description = "Google Cloud project identifier."

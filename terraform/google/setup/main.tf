@@ -1,4 +1,7 @@
-# A GCS Terraform backend.
+####################################################################################################
+#                                        Google Cloud Setup                                        #
+####################################################################################################
+
 terraform {
   required_providers {
     google = {
@@ -14,9 +17,15 @@ provider "google" {
   zone    = var.google_zone
 }
 
-# A GCS bucket that stores the Terraform state.
+####################################################################################################
+#                                             Storage                                              #
+####################################################################################################
+
+# A bucket that stores the Terraform state.
 resource "google_storage_bucket" "terraform_state" {
-  name = "wager-terraform"
+  name                        = "wager-terraform"
+  location                    = var.google_region
+  uniform_bucket_level_access = true
 
   versioning {
     enabled = true

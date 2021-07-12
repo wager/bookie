@@ -6,10 +6,10 @@ RUN \
     /toolchain/apt.sh \
     && rm -rf /var/lib/apt/lists/* \
     && /toolchain/spark.sh \
-    && useradd --user-group wager \
-    && chown wager:wager /opt/spark
+    && useradd --user-group bookie \
+    && chown bookie:bookie /opt/spark
 
-USER wager
+USER bookie
 ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["/toolchain/entrypoint.sh"]
 

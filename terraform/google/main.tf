@@ -264,7 +264,6 @@ resource "helm_release" "spark" {
   repository       = "https://charts.bitnami.com/bitnami"
   cleanup_on_fail  = true
   create_namespace = true
-  timeout          = 600
 
   values = [<<-YAML
     image:

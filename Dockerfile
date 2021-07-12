@@ -6,7 +6,7 @@ RUN \
     /toolchain/apt.sh \
     && rm -rf /var/lib/apt/lists/* \
     && /toolchain/spark.sh \
-    && useradd --user-group --shell /bin/false --uid 1001 wager \
+    && useradd --user-group wager \
     && chown wager:wager /opt/spark
 
 USER wager

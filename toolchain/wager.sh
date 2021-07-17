@@ -7,10 +7,6 @@ sudo() {
     eval "$@"
 }
 
-# Install Bazel.
-sudo curl -fsSLo /usr/local/bin/bazel https://github.com/bazelbuild/bazelisk/releases/download/v1.10.1/bazelisk-linux-amd64
-sudo chmod +x /usr/local/bin/bazel
-
 # # Install Wager.
 if [ ! -d ~/wager ]; then
     ssh-keyscan -H github.com >> ~/.ssh/known_hosts

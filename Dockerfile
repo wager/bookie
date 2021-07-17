@@ -5,6 +5,7 @@ COPY toolchain /toolchain
 RUN \
     /toolchain/apt.sh \
     && rm -rf /var/lib/apt/lists/* \
+    && /toolchain/bazel.sh \
     && /toolchain/spark.sh \
     && useradd --user-group bookie \
     && chown bookie:bookie /opt/spark

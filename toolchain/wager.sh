@@ -1,13 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-# Run commands with sudo when not running as root.
-sudo() {
-    [[ $EUID = 0 ]] || set -- command sudo "$@"
-    eval "$@"
-}
-
-# # Install Wager.
+# Install Wager.
 if [ ! -d ~/wager ]; then
     ssh-keyscan -H github.com >> ~/.ssh/known_hosts
     git clone git@github.com:wager/wager.git ~/wager

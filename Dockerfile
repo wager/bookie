@@ -7,7 +7,7 @@ RUN \
     && rm -rf /var/lib/apt/lists/* \
     && /toolchain/bazel.sh \
     && /toolchain/spark.sh \
-    && useradd --user-group bookie \
+    && useradd --create-home --user-group bookie \
     && chown bookie:bookie /opt/spark
 
 USER bookie

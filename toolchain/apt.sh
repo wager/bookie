@@ -15,7 +15,6 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install --yes --allow-downgrades --n
     git=1:2.25.1-1ubuntu3.1 \
     git-man=1:2.25.1-1ubuntu3.1 \
     jq=1.6-1ubuntu0.20.04.1 \
-    liblz4-1=1.9.2-2ubuntu0.20.04.1 \
     postgresql=12+214ubuntu0.1 \
     postgresql-contrib=12+214ubuntu0.1 \
     python-is-python3=3.8.2-4 \

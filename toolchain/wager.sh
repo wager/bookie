@@ -7,9 +7,6 @@ sudo() {
     eval "$@"
 }
 
-# Install Bazel.
-sudo npm list -g @bazel/bazelisk > /dev/null 2>&1 || sudo npm install -g @bazel/bazelisk
-
 # # Install Wager.
 if [ ! -d ~/wager ]; then
     ssh-keyscan -H github.com >> ~/.ssh/known_hosts

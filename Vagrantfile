@@ -7,6 +7,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/focal64"
   config.vm.provision :docker
   config.vm.provision "shell", path: "./toolchain/apt.sh", privileged: false
+  config.vm.provision "shell", path: "./toolchain/bazel.sh", privileged: false
   config.vm.provision "shell", path: "./toolchain/spark.sh", privileged: false
   config.vm.provision "shell", path: "./toolchain/wager.sh", privileged: false
   config.vm.provision "shell", path: "./toolchain/prompt.sh", privileged: false

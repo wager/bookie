@@ -14,7 +14,6 @@ USER bookie
 WORKDIR /home/bookie
 ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["/toolchain/entrypoint.sh"]
-EXPOSE 8888
 
 LABEL \
     org.opencontainers.image.authors="ashwin.madavan@gmail.com" \

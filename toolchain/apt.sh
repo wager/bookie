@@ -18,4 +18,5 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install --yes --allow-downgrades --n
     postgresql=12+214ubuntu0.1 \
     postgresql-contrib=12+214ubuntu0.1 \
     python-is-python3=3.8.2-4 \
+    python3-distutils=3.8.10-0ubuntu1~20.04 \
     tini=0.18.0-1

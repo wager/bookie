@@ -10,6 +10,7 @@ sudo() {
 # Install system dependencies.
 sudo apt-get update --yes
 sudo DEBIAN_FRONTEND=noninteractive apt-get install --yes --allow-downgrades --no-install-recommends \
+    build-essential=12.8ubuntu1 \
     curl=7.68.0-1ubuntu2.5 \
     default-jdk=2:1.11-72 \
     git=1:2.25.1-1ubuntu3.1 \
@@ -18,5 +19,5 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install --yes --allow-downgrades --n
     postgresql=12+214ubuntu0.1 \
     postgresql-contrib=12+214ubuntu0.1 \
     python-is-python3=3.8.2-4 \
-    python3-pip=20.0.2-5ubuntu1.5 \
+    python3-distutils=3.8.10-0ubuntu1~20.04 \
     tini=0.18.0-1

@@ -11,6 +11,7 @@ RUN \
     && chown bookie:bookie /opt/spark
 
 USER bookie
+WORKDIR /home/bookie
 ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["/toolchain/entrypoint.sh"]
 

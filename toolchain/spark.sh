@@ -1,12 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 
-# Run commands with sudo when not running as root.
-sudo() {
-    [[ $EUID = 0 ]] || set -- command sudo "$@"
-    eval "$@"
-}
-
 # Install Spark.
 curl -fsOS https://downloads.apache.org/spark/spark-3.0.3/spark-3.0.3-bin-hadoop3.2.tgz
 tar xf spark-3.0.3-bin-hadoop3.2.tgz

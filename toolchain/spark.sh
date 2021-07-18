@@ -34,12 +34,12 @@ spark_deps() {
 
 spark_deps \
     com.amazon.deequ:deequ:1.2.2-spark-3.0 \
-    com.amazonaws:aws-java-sdk-bundle:1.12.7 \
-    com.google.cloud.bigdataoss:gcs-connector:hadoop3-2.2.1 \
-    com.google.cloud.spark:spark-bigquery-with-dependencies_2.12:0.21.0 \
+    com.amazonaws:aws-java-sdk-bundle:1.12.26 \
+    com.google.cloud.bigdataoss:gcs-connector:hadoop3-2.2.2 \
+    com.google.cloud.spark:spark-bigquery-with-dependencies_2.12:0.21.1 \
     com.microsoft.sqlserver:mssql-jdbc:9.2.1.jre11 \
     mysql:mysql-connector-java:8.0.25 \
-    net.snowflake:snowflake-jdbc:3.13.4 \
+    net.snowflake:snowflake-jdbc:3.13.5 \
     net.snowflake:spark-snowflake_2.12:2.9.0-spark_3.0 \
     org.apache.hadoop:hadoop-aws:3.3.1 \
-    org.postgresql:postgresql:42.2.21
+    org.postgresql:postgresql:42.2.23

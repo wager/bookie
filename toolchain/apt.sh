@@ -14,7 +14,6 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install --yes --allow-downgrades --n
     curl=7.68.0-1ubuntu2.5 \
     default-jdk=2:1.11-72 \
     git=1:2.25.1-1ubuntu3.1 \
-    git-man=1:2.25.1-1ubuntu3.1 \
     jq=1.6-1ubuntu0.20.04.1 \
     nodejs=10.19.0~dfsg-3ubuntu1 \
     python-is-python3=3.8.2-4 \

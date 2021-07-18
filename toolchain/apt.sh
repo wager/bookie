@@ -19,4 +19,5 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install --yes --allow-downgrades --n
     nodejs=10.19.0~dfsg-3ubuntu1 \
     python-is-python3=3.8.2-4 \
     python3-distutils=3.8.10-0ubuntu1~20.04 \
+    sudo=1.8.31-1ubuntu1.2 \
     tini=0.18.0-1

@@ -54,10 +54,13 @@ The development platform is built with [Vagrant].
 ```bash
 # Start the development environment.
 vagrant up
+
 # Enter the development environment.
 vagrant ssh
+
 # Exit the development environment.
 exit
+
 # Shutdown the development environment.
 vagrant suspend
 ```
@@ -65,15 +68,24 @@ vagrant suspend
 The development platform is compatible with [VirtualBox], [Google Cloud], and [AWS].
 
 ```bash
-vagrant up  # VirtualBox.
-vagrant up --provider=google  # Google Compute Engine.
-vagrant up --provider=aws  # AWS EC2.
+# VirtualBox.
+vagrant up
+
+# Google Compute Engine.
+vagrant up --provider=google
+
+# AWS EC2.
+vagrant up --provider=aws
 ```
 
 The runtime platform is built by [Docker].
 
 ```bash
+# Docker Hub.
 docker pull wager/runtime
+
+# GitHub Packages.
+docker pull ghcr.io/wager/runtime
 ```
 
 The runtime platform is provisioned by [Terraform].

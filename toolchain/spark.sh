@@ -2,11 +2,16 @@
 set -euo pipefail
 
 # Install Spark.
-curl -fsOS https://downloads.apache.org/spark/spark-3.0.3/spark-3.0.3-bin-hadoop3.2.tgz
-tar xf spark-3.0.3-bin-hadoop3.2.tgz
+spark_version='3.0.3'
+sed -i .bak '/^export SPARK_VERSION=/d' ~/.profile
+echo "export SPARK_VERSION='${spark_version}'" >> ~/.profile
+
+spark_binary="spark-${spark_version}-bin-hadoop3.2"
+curl -fsOS "https://downloads.apache.org/spark/spark-${spark_version}/${spark_binary}.tgz"
+tar xf "${spark_binary}.tgz"
+rm "${spark_binary}.tgz"
 sudo rm -rf /opt/spark || true
-sudo mv spark-3.0.3-bin-hadoop3.2 /opt/spark
-rm spark-3.0.3-bin-hadoop3.2.tgz
+sudo mv "${spark_binary}" /opt/spark
 
 spark_home="export SPARK_HOME=/opt/spark"
 grep -qxF "${spark_home}" ~/.profile || echo "${spark_home}" >> ~/.profile

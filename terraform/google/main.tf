@@ -149,26 +149,16 @@ resource "google_compute_firewall" "allow_internal" {
 
 # A bucket that stores archived data.
 resource "google_storage_bucket" "archive" {
-  name           = "wager-archive"
-  location       = var.google_region
-  requester_pays = true
+  name     = "wager-archive"
+  location = var.google_region
 }
 
-resource "google_storage_bucket_iam_binding" "archive_storage_object_creator" {
+resource "google_storage_bucket_iam_binding" "archive_storage_object_admin" {
   bucket = google_storage_bucket.archive.name
-  role   = "roles/storage.objectCreator"
+  role   = "roles/storage.objectAdmin"
 
   members = [
     "serviceAccount:${google_service_account.vagrant.email}",
-  ]
-}
-
-resource "google_storage_bucket_iam_binding" "archive_storage_object_viewer" {
-  bucket = google_storage_bucket.archive.name
-  role   = "roles/storage.objectViewer"
-
-  members = [
-    "allUsers"
   ]
 }
 

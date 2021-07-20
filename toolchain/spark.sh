@@ -3,7 +3,7 @@ set -euo pipefail
 
 # Install Spark.
 spark_version='3.0.3'
-sed -i .bak '/^export SPARK_VERSION=/d' ~/.profile
+sed -i.bak '/^export SPARK_VERSION=/d' ~/.profile
 echo "export SPARK_VERSION='${spark_version}'" >> ~/.profile
 
 spark_binary="spark-${spark_version}-bin-hadoop3.2"

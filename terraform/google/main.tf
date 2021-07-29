@@ -249,7 +249,7 @@ resource "google_container_node_pool" "spark" {
 
 resource "helm_release" "spark" {
   name             = "spark"
-  version          = "5.7.0"
+  version          = "5.7.1"
   chart            = "spark"
   repository       = "https://charts.bitnami.com/bitnami"
   cleanup_on_fail  = true

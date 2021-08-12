@@ -2,8 +2,9 @@
 set -euo pipefail
 
 # Install Spark.
+sudo rm /etc/profile.d/spark.sh || true
+
 spark_version='3.0.3'
-sed -i.bak '/^export SPARK_VERSION=/d' ~/.profile
 echo "export SPARK_VERSION='${spark_version}'" | sudo tee -a /etc/profile.d/spark.sh > /dev/null
 
 spark_binary="spark-${spark_version}-bin-hadoop3.2"
@@ -14,9 +15,9 @@ sudo rm -rf /opt/spark || true
 sudo mv "${spark_binary}" /opt/spark
 
 spark_home="export SPARK_HOME=/opt/spark"
-echo "${spark_home}" | sudo tee -a /etc/profile.d/spark.sh
+echo "${spark_home}" | sudo tee -a /etc/profile.d/spark.sh > /dev/null
 spark_path="export PATH=\${PATH}:/opt/spark/bin,mk:/opt/spark/sbin"
-echo "${spark_path}" | sudo tee -a /etc/profile.d/spark.sh
+echo "${spark_path}" | sudo tee -a /etc/profile.d/spark.sh > /dev/null
 
 # Install Spark dependencies.
 spark_deps() {

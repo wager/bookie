@@ -15,9 +15,12 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install --yes --allow-downgrades --n
     default-jdk=2:1.11-72 \
     git=1:2.25.1-1ubuntu3.1 \
     jq=1.6-1ubuntu0.20.04.1 \
-    nodejs=10.19.0~dfsg-3ubuntu1 \
     python-is-python3=3.8.2-4 \
     python3-distutils=3.8.10-0ubuntu1~20.04 \
     python3-lxml=4.5.0-1ubuntu0.3 \
     sudo=1.8.31-1ubuntu1.2 \
     tini=0.18.0-1
+    
+# Install Node.js dependency.
+curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+sudo apt-get install -y nodejs

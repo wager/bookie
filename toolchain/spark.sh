@@ -2,9 +2,11 @@
 set -euo pipefail
 
 # Install Spark.
+spark_profile="/etc/profile.d/spark.sh"
+sudo rm "${spark_profile}" || true
+
 spark_version='3.0.3'
-sed -i.bak '/^export SPARK_VERSION=/d' ~/.profile
-echo "export SPARK_VERSION='${spark_version}'" >> ~/.profile
+echo "export SPARK_VERSION='${spark_version}'" | sudo tee -a "${spark_profile}" > /dev/null
 
 spark_binary="spark-${spark_version}-bin-hadoop3.2"
 curl -fsOS "https://downloads.apache.org/spark/spark-${spark_version}/${spark_binary}.tgz"
@@ -13,10 +15,10 @@ rm "${spark_binary}.tgz"
 sudo rm -rf /opt/spark || true
 sudo mv "${spark_binary}" /opt/spark
 
-spark_home="export SPARK_HOME=/opt/spark"
-grep -qxF "${spark_home}" ~/.profile || echo "${spark_home}" >> ~/.profile
-spark_path="export PATH=\${PATH}:/opt/spark/bin,mk:/opt/spark/sbin"
-grep -qxF "${spark_path}" ~/.profile || echo "${spark_path}" >> ~/.profile
+spark_home="/opt/spark"
+echo "export SPARK_HOME='${spark_home}'" | sudo tee -a "${spark_profile}" > /dev/null
+spark_path="\${PATH}:/opt/spark/bin,mk:/opt/spark/sbin"
+echo "export PATH=\"${spark_path}\"" | sudo tee -a "${spark_profile}" > /dev/null
 
 # Install Spark dependencies.
 spark_deps() {

@@ -15,10 +15,10 @@ rm "${spark_binary}.tgz"
 sudo rm -rf /opt/spark || true
 sudo mv "${spark_binary}" /opt/spark
 
-spark_home="export SPARK_HOME=/opt/spark"
-echo "${spark_home}" | sudo tee -a "${spark_profile}" > /dev/null
-spark_path="export PATH=\${PATH}:/opt/spark/bin,mk:/opt/spark/sbin"
-echo "${spark_path}" | sudo tee -a "${spark_profile}" > /dev/null
+spark_home="/opt/spark"
+echo "export SPARK_HOME='${spark_home}'" | sudo tee -a "${spark_profile}" > /dev/null
+spark_path="\${PATH}:/opt/spark/bin,mk:/opt/spark/sbin"
+echo "export PATH=\"${spark_path}\"" | sudo tee -a "${spark_profile}" > /dev/null
 
 # Install Spark dependencies.
 spark_deps() {

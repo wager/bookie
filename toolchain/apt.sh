@@ -20,3 +20,7 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install --yes --allow-downgrades --n
     python3-lxml=4.5.0-1ubuntu0.3 \
     sudo=1.8.31-1ubuntu1.2 \
     tini=0.18.0-1
+
+# Install Node.js dependency.
+curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
+sudo DEBIAN_FRONTEND=noninteractive apt-get install --yes nodejs=16.6.2-deb-1nodesource1

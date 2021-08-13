@@ -60,6 +60,7 @@ _complete_wager() {
         mapfile -t COMPREPLY < <(compgen -W "${workspaces}" -- "${COMP_WORDS[COMP_CWORD]}")
     elif [[ "${COMP_CWORD}" -eq 2 ]]; then
         local -r scripts='backfill compute describe lab list notebook shell'
+
         mapfile -t COMPREPLY < <(compgen -W "${scripts}" -- "${COMP_WORDS[COMP_CWORD]}")
     else
         COMPREPLY=()

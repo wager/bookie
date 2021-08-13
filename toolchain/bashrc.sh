@@ -1,5 +1,4 @@
 #!/bin/bash
-set -euo pipefail
 
 # Skip if not interactive.
 case $- in
@@ -50,9 +49,15 @@ fi
 # Register completions for the wager command.
 _complete_wager() {
     if [[ "${COMP_CWORD}" -eq 1 ]]; then
-        COMPREPLY=($(cd /workspaces/wager/wager && find * -name 'BUILD' -exec grep -q 'wager_workspace' {} ';' -printf '%h ' | sort -u))
+        local -r workspaces="$(
+            cd /workspaces/wager/wager \
+            && find * -name 'BUILD' -exec grep -q 'wager_workspace' {} ';' -printf '%h\n' | sort -u
+        )"
+        
+        mapfile -t COMPREPLY < <(compgen -W "${workspaces}" -- "${COMP_WORDS[COMP_CWORD]}")
     elif [[ "${COMP_CWORD}" -eq 2 ]]; then
-        COMPREPLY=($(compgen -W 'backfill compute describe lab list notebook shell' -- "${COMP_WORDS[COMP_CWORD]}"))
+        local -r scripts='backfill compute describe lab list notebook shell'
+        mapfile -t COMPREPLY < <(compgen -W "${scripts}" -- "${COMP_WORDS[COMP_CWORD]}")
     else
         COMPREPLY=()
     fi

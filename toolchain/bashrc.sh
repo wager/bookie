@@ -10,9 +10,23 @@ esac
 #                                             Commands                                             #
 ####################################################################################################
 
+# Enable recursive globbing. (**)
+shopt -s globstar
+
+# Enable completions.
+if ! shopt -oq posix; then
+    if [ -f /usr/share/bash-completion/bash_completion ]; then
+        # shellcheck source=/dev/null
+        . /usr/share/bash-completion/bash_completion
+    elif [ -f /etc/bash_completion ]; then
+        # shellcheck source=/dev/null
+        . /etc/bash_completion
+    fi
+fi
+
 # Register a shortcut for running scripts in a Wager workspace.
 wager() {
-    local -r root="/workspaces/wager"
+    local -r root="${WAGER_REPOSITORY:-/workspaces/wager}"
     local -r workspace="wager/$1"
 
     if [[ ! -d "${root}/${workspace}" ]]; then
@@ -30,29 +44,10 @@ wager() {
     fi
 }
 
-####################################################################################################
-#                                           Completions                                            #
-####################################################################################################
-
-# Enable recursive globbing. (**)
-shopt -s globstar
-
-# Enable completions.
-if ! shopt -oq posix; then
-    if [ -f /usr/share/bash-completion/bash_completion ]; then
-        # shellcheck source=/dev/null
-        . /usr/share/bash-completion/bash_completion
-    elif [ -f /etc/bash_completion ]; then
-        # shellcheck source=/dev/null
-        . /etc/bash_completion
-    fi
-fi
-
-# Register completions for the wager command.
 _wager() {
     if [[ "${COMP_CWORD}" -eq 1 ]]; then
         local -r completions="$(
-            cd /workspaces/wager/wager \
+            cd "${WAGER_REPOSITORY:-/workspaces/wager}/wager" \
             && find -- * -name 'BUILD' -exec sh -c 'grep -q "wager_workspace" $1' shell {} ';' -printf '%h\n' \
             | sort -u
         )"

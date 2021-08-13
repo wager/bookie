@@ -11,13 +11,11 @@
 *.tfvars
 .terraform/
 
-# Vagrant.
-.vagrant/
-
 # Vim.
 .*.swo
 .*.swp
 
 # Visual Studio Code.
+.history/
 .metals
 .vscode

@@ -10,17 +10,11 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-      - name: Configure SSH
-        run: ssh-keygen -t rsa -b 4096 -q -f "$HOME/.ssh/id_rsa" -C "ashwin.madavan@gmail.com" -N ""
       - name: Install Terraform
         run: |
           curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
           sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
           sudo apt install terraform
-      - name: Install Vagrant
-        run: sudo apt-get install vagrant
-      - name: Install VirtualBox
-        run: sudo apt-get install virtualbox
       - name: Run Pre-Commit
         uses: pre-commit/action@v2.0.3
   test:

@@ -7,7 +7,6 @@ RUN \
     && rm -rf /var/lib/apt/lists/* \
     && /toolchain/bazel.sh \
     && /toolchain/spark.sh \
-    && /toolchain/pre-commit.sh \
     && useradd --create-home --shell /bin/bash --uid 1001 --user-group bookie \
     && chown bookie:bookie /opt/spark \
     && su - bookie -c /toolchain/prompt.sh

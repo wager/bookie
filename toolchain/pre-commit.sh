@@ -2,5 +2,5 @@
 set -euo pipefail
 
 pip3 install pre-commit
-git config --global init.templateDir ~/.git-template
-~/.local/bin/pre-commit init-templatedir ~/.git-template
+git config --global init.templateDir /usr/share/git-core/templates
+pre-commit init-templatedir /usr/share/git-core/templates

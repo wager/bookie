@@ -9,6 +9,7 @@ RUN \
     && /toolchain/spark.sh \
     && useradd --create-home --shell /bin/bash --uid 1001 --user-group bookie \
     && chown bookie:bookie /opt/spark \
+    && su - bookie -c /toolchain/pre-commit.sh \
     && su - bookie -c /toolchain/prompt.sh
 
 USER bookie

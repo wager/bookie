@@ -7,9 +7,9 @@ RUN \
     && rm -rf /var/lib/apt/lists/* \
     && /toolchain/bazel.sh \
     && /toolchain/spark.sh \
+    && cp /toolchain/bashrc.sh /etc/bash.bashrc \
     && useradd --create-home --shell /bin/bash --uid 1001 --user-group bookie \
-    && chown bookie:bookie /opt/spark \
-    && su - bookie -c /toolchain/prompt.sh
+    && chown bookie:bookie /opt/spark
 
 USER bookie
 WORKDIR /home/bookie

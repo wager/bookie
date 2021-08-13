@@ -18,7 +18,6 @@ shopt -s globstar
 wager() {
     local -r root="/workspaces/wager"
     local -r workspace="wager/$1"
-    local -r arguments="${@:2}"
 
     if [[ ! -d "${root}/${workspace}" ]]; then
         echo -e "\e[0;31m${root}/${workspace} does not exist.\e[0m"
@@ -30,7 +29,7 @@ wager() {
         echo -e "\e[0;31mBuild failed. Run cd ${root} && bazel build //${workspace}:app for details.\e[0m"
         return 1
     else
-        (cd "${root}/${workspace}" && eval "${root}/bazel-bin/${workspace}/app" "${arguments}")
+        (cd "${root}/${workspace}" && eval "${root}/bazel-bin/${workspace}/app" "${@:2}")
         return $?
     fi
 }

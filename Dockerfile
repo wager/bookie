@@ -8,14 +8,11 @@ RUN \
     && /toolchain/bazel.sh \
     && /toolchain/spark.sh \
     && useradd --create-home --shell /bin/bash --uid 1001 --user-group bookie \
-    && chown bookie:bookie /opt/spark
+    && chown bookie:bookie /opt/spark \
+    && su - bookie -c /toolchain/pre-commit.sh \
+    && su - bookie -c /toolchain/prompt.sh
 
 USER bookie
-
-RUN \
-    /toolchain/pre-commit.sh \
-    && /toolchain/prompt.sh
-
 WORKDIR /home/bookie
 ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["/toolchain/entrypoint.sh"]

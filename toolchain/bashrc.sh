@@ -59,7 +59,7 @@ _complete_wager() {
     elif [[ "${COMP_CWORD}" -eq 2 ]]; then
         local -r completions='backfill compute describe lab list notebook shell'
     fi
-    
+
    mapfile -t COMPREPLY < <(compgen -W "${completions:-}" -- "${COMP_WORDS[COMP_CWORD]}")
 }
 

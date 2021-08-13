@@ -39,11 +39,13 @@ wager() {
 
 # Enable completions.
 if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
+    if [ -f /usr/share/bash-completion/bash_completion ]; then
+        # shellcheck source=/dev/null
+        . /usr/share/bash-completion/bash_completion
+    elif [ -f /etc/bash_completion ]; then
+        # shellcheck source=/dev/null
+        . /etc/bash_completion
+    fi
 fi
 
 # Register completions for the wager command.
@@ -51,9 +53,10 @@ _complete_wager() {
     if [[ "${COMP_CWORD}" -eq 1 ]]; then
         local -r workspaces="$(
             cd /workspaces/wager/wager \
-            && find * -name 'BUILD' -exec grep -q 'wager_workspace' {} ';' -printf '%h\n' | sort -u
+            && find -- * -name 'BUILD' -exec grep -q 'wager_workspace' {} ';' -printf '%h\n' \
+            | sort -u
         )"
-        
+
         mapfile -t COMPREPLY < <(compgen -W "${workspaces}" -- "${COMP_WORDS[COMP_CWORD]}")
     elif [[ "${COMP_CWORD}" -eq 2 ]]; then
         local -r scripts='backfill compute describe lab list notebook shell'

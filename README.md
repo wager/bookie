@@ -43,42 +43,12 @@ bookie/
 ├── .pre-commit-config.yaml         Linters.
 ├── terraform/                      Cloud infrastructure.
 ├── toolchain/                      Installation scripts.
-├── Dockerfile                      Runtime platform.
-└── Vagrantfile                     Development platform.
+└── Dockerfile                      Base platform.
 ```
 
 # Features
 
-The development platform is built with [Vagrant].
-
-```bash
-# Start the development environment.
-vagrant up
-
-# Enter the development environment.
-vagrant ssh
-
-# Exit the development environment.
-exit
-
-# Shutdown the development environment.
-vagrant suspend
-```
-
-The development platform is compatible with [VirtualBox], [Google Cloud], and [AWS].
-
-```bash
-# VirtualBox.
-vagrant up
-
-# Google Compute Engine.
-vagrant up --provider=google
-
-# AWS EC2.
-vagrant up --provider=aws
-```
-
-The runtime platform is built by [Docker].
+The base platform is built by [Docker].
 
 ```bash
 # Docker Hub.
@@ -88,7 +58,7 @@ docker pull wager/runtime
 docker pull ghcr.io/wager/runtime
 ```
 
-The runtime platform is provisioned by [Terraform].
+The cloud infrastructure is provisioned by [Terraform].
 
 ```bash
 # Google Cloud.
@@ -100,15 +70,7 @@ terraform -chdir=terraform/aws/setup apply
 terraform -chdir=terraform/aws apply
 ```
 
-[AWS]:
-  https://aws.amazon.com/ec2
 [Docker]:
   https://www.docker.com/
-[Google Cloud]:
-  https://cloud.google.com/compute
 [Terraform]:
   https://www.terraform.io/
-[Vagrant]:
-  https://www.vagrantup.com
-[VirtualBox]:
-  https://www.virtualbox.org

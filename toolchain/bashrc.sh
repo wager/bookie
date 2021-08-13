@@ -10,9 +10,6 @@ esac
 #                                             Commands                                             #
 ####################################################################################################
 
-# Enable recursive globbing. (**)
-shopt -s globstar
-
 # Register a shortcut for running scripts in a Wager workspace.
 wager() {
     local -r root="/workspaces/wager"
@@ -37,6 +34,9 @@ wager() {
 #                                           Completions                                            #
 ####################################################################################################
 
+# Enable recursive globbing. (**)
+shopt -s globstar
+
 # Enable completions.
 if ! shopt -oq posix; then
     if [ -f /usr/share/bash-completion/bash_completion ]; then
@@ -49,7 +49,7 @@ if ! shopt -oq posix; then
 fi
 
 # Register completions for the wager command.
-_complete_wager() {
+_wager() {
     if [[ "${COMP_CWORD}" -eq 1 ]]; then
         local -r completions="$(
             cd /workspaces/wager/wager \
@@ -63,7 +63,7 @@ _complete_wager() {
    mapfile -t COMPREPLY < <(compgen -W "${completions:-}" -- "${COMP_WORDS[COMP_CWORD]}")
 }
 
-complete -F _complete_wager wager
+complete -F _wager wager
 
 ####################################################################################################
 #                                             Display                                              #

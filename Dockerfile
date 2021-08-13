@@ -7,7 +7,7 @@ RUN \
     && rm -rf /var/lib/apt/lists/* \
     && /toolchain/bazel.sh \
     && /toolchain/spark.sh \
-    && cp /toolchain/bashrc.sh /etc/bash.bashrc \
+    && cp /toolchain/bashrc.sh /etc/skel/.bashrc \
     && useradd --create-home --shell /bin/bash --uid 1001 --user-group bookie \
     && chown bookie:bookie /opt/spark
 

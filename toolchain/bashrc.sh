@@ -53,7 +53,7 @@ _complete_wager() {
     if [[ "${COMP_CWORD}" -eq 1 ]]; then
         local -r workspaces="$(
             cd /workspaces/wager/wager \
-            && find -- * -name 'BUILD' -exec grep -q 'wager_workspace' {} ';' -printf '%h\n' \
+            && find -- * -name 'BUILD' -exec sh -c "grep -q 'wager_workspace' {}" ';' -printf '%h\n' \
             | sort -u
         )"
 

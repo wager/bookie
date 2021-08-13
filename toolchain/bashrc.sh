@@ -51,20 +51,16 @@ fi
 # Register completions for the wager command.
 _complete_wager() {
     if [[ "${COMP_CWORD}" -eq 1 ]]; then
-        local -r workspaces="$(
+        local -r completions="$(
             cd /workspaces/wager/wager \
-            && find -- * -name 'BUILD' -exec sh -c "grep -q 'wager_workspace' {}" ';' -printf '%h\n' \
+            && find -- * -name 'BUILD' -exec sh -c 'grep -q "wager_workspace" $1' shell {} ';' -printf '%h\n' \
             | sort -u
         )"
-
-        mapfile -t COMPREPLY < <(compgen -W "${workspaces}" -- "${COMP_WORDS[COMP_CWORD]}")
     elif [[ "${COMP_CWORD}" -eq 2 ]]; then
-        local -r scripts='backfill compute describe lab list notebook shell'
-
-        mapfile -t COMPREPLY < <(compgen -W "${scripts}" -- "${COMP_WORDS[COMP_CWORD]}")
-    else
-        COMPREPLY=()
+        local -r completions='backfill compute describe lab list notebook shell'
     fi
+    
+   mapfile -t COMPREPLY < <(compgen -W "${completions:-}" -- "${COMP_WORDS[COMP_CWORD]}")
 }
 
 complete -F _complete_wager wager

@@ -9,5 +9,5 @@ elif [ "${SPARK_MODE:-}" = "worker" ]; then
     exec env SPARK_NO_DAEMONIZE=true /opt/spark/sbin/start-slave.sh "${SPARK_MASTER_URL}"
 else
     # Launch a Bash shell.
-    exec /bin/bash
+    exec /bin/bash -l
 fi

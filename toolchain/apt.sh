@@ -19,6 +19,7 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install --yes --allow-downgrades --n
     python3-distutils=3.8.10-0ubuntu1~20.04 \
     python3-pip=20.0.2-5ubuntu1.6 \
     python3-lxml=4.5.0-1ubuntu0.3 \
+    openssh-client=1:8.2p1-4ubuntu0.2 \
     sudo=1.8.31-1ubuntu1.2 \
     tini=0.18.0-1 \
     vim=2:8.1.2269-1ubuntu5

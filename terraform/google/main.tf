@@ -34,7 +34,7 @@ provider "google" {
 
 data "google_client_config" "current" {}
 
-// Enable Google Cloud Storage.
+# Enable Google Cloud Storage.
 resource "google_project_service" "cloud_storage" {
   service = "storage-component.googleapis.com"
 }
@@ -73,22 +73,6 @@ resource "github_actions_organization_secret" "gcp_service_account_key" {
   secret_name     = "GCP_SERVICE_ACCOUNT_KEY"
   visibility      = "private"
   plaintext_value = google_service_account_key.github.private_key
-}
-
-# A service account that launches virtual machines on Google Compute Engine.
-resource "google_service_account" "vagrant" {
-  account_id   = "vagrant"
-  display_name = "Vagrant"
-  description  = "Manages development environments using Vagrant."
-}
-
-# All Google Compute Engine instance administrators.
-resource "google_project_iam_binding" "compute_instance_admin" {
-  role = "roles/compute.instanceAdmin.v1"
-
-  members = [
-    "serviceAccount:${google_service_account.vagrant.email}",
-  ]
 }
 
 ####################################################################################################
@@ -208,7 +192,7 @@ resource "google_storage_bucket_iam_binding" "cache_storage_object_admin" {
 #                                             Compute                                              #
 ####################################################################################################
 
-// A Kubernetes cluster.
+# A Kubernetes cluster.
 resource "google_container_cluster" "live" {
   name                     = "live"
   location                 = var.google_zone

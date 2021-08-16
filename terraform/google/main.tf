@@ -34,7 +34,7 @@ provider "google" {
 
 data "google_client_config" "current" {}
 
-// Enable Google Cloud Storage.
+# Enable Google Cloud Storage.
 resource "google_project_service" "cloud_storage" {
   service = "storage-component.googleapis.com"
 }
@@ -76,19 +76,10 @@ resource "github_actions_organization_secret" "gcp_service_account_key" {
 }
 
 # A service account that launches virtual machines on Google Compute Engine.
-resource "google_service_account" "vagrant" {
-  account_id   = "vagrant"
-  display_name = "Vagrant"
-  description  = "Manages development environments using Vagrant."
-}
-
-# All Google Compute Engine instance administrators.
-resource "google_project_iam_binding" "compute_instance_admin" {
-  role = "roles/compute.instanceAdmin.v1"
-
-  members = [
-    "serviceAccount:${google_service_account.vagrant.email}",
-  ]
+resource "google_service_account" "bookie" {
+  account_id   = "bookie"
+  display_name = "Bookie"
+  description  = "Manages the Wager development platform."
 }
 
 ####################################################################################################
@@ -100,12 +91,11 @@ resource "google_compute_network" "vpc" {
   name = "vpc"
 }
 
-# A firewall rule that exposes tcp:22 on Vagrant boxes for SSH.
+# A firewall rule that exposes tcp:22 on all boxes for SSH.
 resource "google_compute_firewall" "allow_ssh" {
   name          = "allow-ssh"
   network       = google_compute_network.vpc.name
   source_ranges = ["0.0.0.0/0"]
-  target_tags   = ["vagrant"]
 
   allow {
     protocol = "tcp"
@@ -113,20 +103,7 @@ resource "google_compute_firewall" "allow_ssh" {
   }
 }
 
-# A firewall rule that exposes tcp:8888 on Vagrant boxes for Jupyter.
-resource "google_compute_firewall" "allow_jupyter" {
-  name          = "allow-jupyter"
-  network       = google_compute_network.vpc.name
-  source_ranges = ["0.0.0.0/0"]
-  target_tags   = ["vagrant"]
-
-  allow {
-    protocol = "tcp"
-    ports    = ["8888"]
-  }
-}
-
-# A firewall rule that exposes tcp:* and udp:* on all boxes internally.
+# A firewall rule that exposes tcp:* and udp:* on all boxes for internal communication.
 resource "google_compute_firewall" "allow_internal" {
   name          = "allow-internal"
   network       = google_compute_network.vpc.name
@@ -158,7 +135,7 @@ resource "google_storage_bucket_iam_binding" "archive_storage_object_admin" {
   role   = "roles/storage.objectAdmin"
 
   members = [
-    "serviceAccount:${google_service_account.vagrant.email}",
+    "serviceAccount:${google_service_account.bookie.email}",
   ]
 }
 
@@ -200,7 +177,7 @@ resource "google_storage_bucket_iam_binding" "cache_storage_object_admin" {
   role   = "roles/storage.objectAdmin"
 
   members = [
-    "serviceAccount:${google_service_account.vagrant.email}",
+    "serviceAccount:${google_service_account.bookie.email}",
   ]
 }
 
@@ -208,7 +185,7 @@ resource "google_storage_bucket_iam_binding" "cache_storage_object_admin" {
 #                                             Compute                                              #
 ####################################################################################################
 
-// A Kubernetes cluster.
+# A Kubernetes cluster.
 resource "google_container_cluster" "live" {
   name                     = "live"
   location                 = var.google_zone

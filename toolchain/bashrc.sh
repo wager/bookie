@@ -76,7 +76,7 @@ alias grep='grep --color=auto'
 # Enrich the command prompt.
 prompt() {
     local -r user="$(whoami)@$(curl -s https://ipinfo.io/ip)"
-    local -r path="$(dirs +0)"   
+    local -r path="$(dirs +0)"
     PS1="\[\e[0;37m\]${user}\[\e[0m\] \[\e[0;35m\]${path}\[\e[0m\]"
 
     if git rev-parse --is-inside-work-tree &> /dev/null 2>&1; then

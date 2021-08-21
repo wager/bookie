@@ -26,4 +26,4 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install --yes --allow-downgrades --n
 
 # Install Node.js dependencies.
 curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
-sudo DEBIAN_FRONTEND=noninteractive apt-get install --yes nodejs=16.6.2-deb-1nodesource1
+sudo DEBIAN_FRONTEND=noninteractive apt-get install --yes nodejs=16.7.0-deb-1nodesource1

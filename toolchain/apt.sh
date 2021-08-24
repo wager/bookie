@@ -16,6 +16,7 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install --yes --allow-downgrades --n
     git=1:2.25.1-1ubuntu3.1 \
     jq=1.6-1ubuntu0.20.04.1 \
     python-is-python3=3.8.2-4 \
+    python3-dev=3.8.2-0ubuntu2 \
     python3-distutils=3.8.10-0ubuntu1~20.04 \
     python3-pip=20.0.2-5ubuntu1.6 \
     python3-lxml=4.5.0-1ubuntu0.3 \

@@ -16,7 +16,7 @@ terraform {
 
     google = {
       source  = "hashicorp/google"
-      version = "~> 3.76.0"
+      version = "~> 3.81.0"
     }
 
     helm = {
